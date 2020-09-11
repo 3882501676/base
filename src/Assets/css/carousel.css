@@ -1,0 +1,26 @@
+.BrainhubCarousel {
+    height: 100vh;
+}
+/* .carousel button {
+    z-index: 999;
+    position: absolute;
+    top: 40%;
+} */
+button[aria-label="back"] {
+    left: 0;
+}
+button[aria-label="next"] {
+    right: 0;
+}
+.carousel button {
+    z-index: 999;
+    position: absolute;
+    top: 1px;
+    right: 0px;
+    width: 5vw;
+    border: none;
+    padding: 1rem;
+    background: #ffffff;
+    color: white;
+    font-weight: bold;
+}

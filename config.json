@@ -1,0 +1,21 @@
+{
+    "app": {
+        "logotext": "Nodal"
+    },
+    "api": { 
+        "keys": {
+            "gapi1": "AIzaSyBsyaHcoEdTSJSh9KpcXAT4oHa_9Otkt6A",
+            "maps1": "AIzaSyBsyaHcoEdTSJSh9KpcXAT4oHa_9Otkt6A",
+            "mapbox": "pk.eyJ1IjoicXVhbnRhY29tIiwiYSI6ImNrYXliN3lhMzBlZDQycXFxc3d3dWdoYXUifQ.cqQls_lxAKO6dZCK0xOHpg",
+            "square": { 
+                "appid": "sandbox-sq0idb-1y711FoKbLW-vwGn7XBCaA", 
+                "accesstoken": "EAAAELZC5l2rdmMK9kNGF5bOzXvFl30Ijol5da2_L_pvcfF4fMtv5oPWbshkde6P",
+                "location": "QRRBDSR33JC8W"
+            },
+            "contentful": {
+                "manage": "CFPAT-5vt_zTF7w7N1a4ReKrgt-oT0OGT-Yt1D1eIKQpAiEH0",
+                "space": "9uo3j0kfe1cm"
+            }
+    } 
+}
+}

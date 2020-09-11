@@ -1,0 +1,74 @@
+.bg-near-white {
+    background-color: #ceedff1a !important;
+}
+
+.bg-green {
+    background-color: #24fba1 !important;
+}
+
+.bs-g {
+    box-shadow: 0vw 0vw 4vw 0vw #7bf7a13b !important;
+}
+
+.grayscale {
+    filter: grayscale(100);
+    -webkit-filter: grayscale(100);
+}
+.bg-blue {
+    background-color: #0089ff !important;
+}
+
+.purple {
+    color: #6c62fa;
+    fill: #6c62fa;
+
+}
+.bg-purple {
+    background: #6c62fa;
+}
+
+.bs-p {
+    box-shadow: 0vw 0vw 4vw 0vw #6c62fa8f;
+}
+
+.bs-purple-light {
+    box-shadow: 0vw 0vw 4vw 0vw #6c62fa21;
+}
+
+.hover-bg-white:hover {
+    background: white;
+}
+.bg-gradient-green {
+    background: #64c939;
+    background: linear-gradient(to bottom, #3eda3b, #08b736);
+}
+
+.bg-gradient-light-blue {
+    background: #abf8f3;
+    background: linear-gradient(to top, #a8f1ea, #adfffb);
+}
+
+.hover-bg-gradient-green:hover {
+    background: #64c939 !important;
+    background: linear-gradient(to bottom, #5ff3b5, #83e89e) !important;
+    
+}
+
+.hover-bg-gradient-green:hover > *, .hover-bg-gradient-green:hover > svg,.hover-bg-gradient-green:hover > span {
+   color: white !important;
+   fill: white !important; 
+}
+
+.hover-bg-gradient-blue:hover {
+    background: #3afff6 !important;
+    background: linear-gradient(to right, #3afff6, #30f5ff) !important;
+    
+}
+
+.hover-bg-gradient-blue:hover > *, .hover-bg-gradient-blue:hover > svg,.hover-bg-gradient-blue:hover > span {
+   color: white !important;
+   fill: white !important; 
+}
+.hover-bg-light-blue:hover {
+    background:#31e8ff;
+}

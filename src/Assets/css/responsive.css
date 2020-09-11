@@ -1,0 +1,20 @@
+@media only screen and (min-width: 768px) {
+    .display-ns {
+
+    }
+    .hide-ns {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .display-ns {
+        
+    }
+    .display-s {
+        
+    }
+    .hide-s {
+        display: none;
+    }
+}

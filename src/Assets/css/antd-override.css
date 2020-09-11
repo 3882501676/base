@@ -1,0 +1,52 @@
+/* .ant-drawer > * {
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+} */
+
+
+.ant-drawer2 > * {
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-box-shadow 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+}
+
+.ant-drawer-top.ant-drawer-open, .ant-drawer-bottom.ant-drawer-open {
+    height: 100%;
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+    transition: transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960), -webkit-transform 0.3s cubic-bezier(0.195, 0.850, 0.000, 0.960);
+}
+
+.ant-drawer > * {
+-webkit-transition: -webkit-transform 500ms cubic-bezier(0.195, 0.850, 0.000, 0.960), 
+
+}
+
+.ant-drawer-body {
+    padding: 0 !important;
+}
+
+.ant-drawer-content {
+    background-color: #f4f4f4 !important; 
+}
+
+.ant-drawer-close {
+    left: 0 !important;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+    .ant-drawer.ant-drawer-bottom.ant-drawer-open {
+        width: 60vw;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .ant-drawer.ant-drawer-bottom.ant-drawer-open {
+        width: 100vw;
+    }
+}

@@ -3,18 +3,44 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@blueprintjs/core": "^3.28.1",
+    "@brainhubeu/react-carousel": "^1.16.0",
+    "@contentful/rich-text-react-renderer": "^13.4.0",
+    "@mapbox/mapbox-gl-geocoder": "^4.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@turf/random": "^6.0.2",
+    "@turf/turf": "^5.1.6",
+    "@urbica/react-map-gl": "^1.13.1",
+    "@urbica/react-map-gl-cluster": "^0.2.0",
+    "antd": "^4.2.4",
+    "antd-mobile": "^2.3.2",
+    "contentful": "^7.14.4",
+    "contentful-management": "^5.26.6",
+    "deck.gl": "^8.1.8",
+    "mapbox-gl": "^1.10.1",
+    "mousetrap": "^1.6.5",
     "react": "^16.13.1",
+    "react-device-detect": "^1.12.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-helmet": "^6.0.0",
+    "react-intersection-observer": "^8.26.2",
+    "react-map-gl": "^5.2.5",
+    "react-map-gl-geocoder": "^2.0.11",
+    "react-mapbox-gl-geocoder": "^1.1.0",
+    "react-mousetrap": "^0.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.3",
+    "react-scrollama": "^2.2.8",
+    "react-spring": "^8.0.27"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "commit": "git add .; git commit -m 'U'; git push -u origin master"
   },
   "eslintConfig": {
     "extends": "react-app"

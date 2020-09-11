@@ -1,0 +1,9 @@
+.sans-serif {
+    font-family: "Roboto", sans-serif !important;
+    /* font-size: 0.8rem; */
+}
+.bebas {
+    font-family: "Bebas Neue", sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');

@@ -1,0 +1,61 @@
+.mapboxgl-ctrl-top-left {
+    margin: 2rem 0 0 2rem !important;
+    /* float: left; */
+}
+
+
+.mapboxgl-ctrl-top-right {
+    margin: 0rem 0rem 0 0rem !important;
+    display: flex;
+    flex-direction: row-reverse;
+    /* float: right; */
+    padding: 2rem 2rem 0rem 0rem;
+}
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+    margin: 0;
+}
+
+
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl.mapboxgl-ctrl-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: none;
+    box-shadow: 0px 0px 7px 0px #00000026 !important;
+    margin: 0;
+    justify-content: space-between;
+    margin-left: 1rem;
+    width: auto;
+}
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl {
+    margin: 0;
+    float: left;
+    box-shadow: none !important;
+    box-shadow: 0px 0px 7px 0px #00000026 !important;
+}
+
+.mapboxgl-ctrl-top-left {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    height: 86%;
+    justify-content: flex-end;
+    align-items: flex-end;
+    display: flex;
+}
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl {
+    /* margin: 10px 0 0 10px; */
+    float: left;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end; */
+    /* align-items: flex-end; */
+}
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+    margin: 0;
+    float: right;
+}
+.react-geocoder-results {
+    bottom: 10vh;
+}
