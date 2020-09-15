@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import AppContext from '../../../../Util/Context/context.js'
 import { Icon } from '@blueprintjs/core'
 import config from '../../../../config.json'
+import { Link } from 'react-router-dom'
 
-class Nav extends PureComponent { 
+class Nav extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -38,12 +39,17 @@ class Nav extends PureComponent {
     console.log('Nav will unmount');
   }
 
-  render () {
+  render() {
 
     const items = [
       {
         label: 'Home',
         link: '/',
+        icon: ''
+      },
+      {
+        label: 'About',
+        link: '/about',
         icon: ''
       },
       {
@@ -57,50 +63,51 @@ class Nav extends PureComponent {
       return <h1>Something went wrong.</h1>;
     }
     return (
-      <div 
-      style={{
-        height: '10vh'
-      }}
-      className=" NavWrapper z-9 fixed top-0 left-0 w-100 bg-white shadow-1 ">
+      <div
+        style={{
+          height: '10vh'
+        }}
+        className=" NavWrapper z-9 fixed top-0 left-0 w-100 bg-white shadow-1 ">
 
-          <div 
-          
+        <div
+
           className="flex flex-row items-center justify-between h-100">
 
-              <div 
-              id="logotext"
-              className="flex flex-row items-center justify-start">
+          <div
+            id="logotext"
+            className="flex flex-row items-center justify-start">
 
-                <span className="pointer dim grow f3 tracked fw6 black- orange  bebas  ph4">{config.app.logotext}</span>
-
-              </div>
-
-              <div className="flex flex-row">
-
-              {
-                items.map((item,index) => (
-                  <div 
-                  key={index}
-                  className=" pointer flex flex-row items-center justify-start ph2 pv2">
-                    
-                    <Icon icon={item.icon} iconSize={20} />
-
-                    <span className=" grow dim sans-serif f5 fw6 black">{item.label}</span>  
-
-                  </div>
-                ))
-              }
-
-              </div>
-
-              <div className="flex flex-row items-center justify-start ph4">
-
-                  <Icon icon={'menu'} iconSize={20} className="dim grow black-10 hover-red trans-a pointer " />
-
-              </div>
-
+            <span className="pointer dim grow f3 tracked fw6 black- orange  bebas  ph4">{config.app.logotext}</span>
 
           </div>
+
+          <div className="flex flex-row">
+
+            {
+              items.map((item, index) => (
+                <Link
+                  to={item.link}
+                  key={index}
+                  className=" pointer flex flex-row items-center justify-start ph2 pv2">
+
+                  <Icon icon={item.icon} iconSize={20} />
+
+                  <span className=" grow dim sans-serif f5 fw6 black">{item.label}</span>
+
+                </Link>
+              ))
+            }
+
+          </div>
+
+          <div className="flex flex-row items-center justify-start ph4">
+
+            <Icon icon={'menu'} iconSize={20} className="dim grow black-10 hover-red trans-a pointer " />
+
+          </div>
+
+
+        </div>
 
       </div>
     );

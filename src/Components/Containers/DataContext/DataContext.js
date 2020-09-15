@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import AppContext from '../../../Util/Context/context.js'
 import { isMobile, deviceDetect } from "react-device-detect";
 import * as device from "react-device-detect";
-
+import history from '../../../Util/history.js'
 
 import { one, two, three, four, five } from './Actions'
 
@@ -84,7 +84,8 @@ class DataContext extends PureComponent {
 
             },
 
-            device: { isMobile, deviceDetect }
+            device: { isMobile, deviceDetect },
+            history: history
 
             }}
             >

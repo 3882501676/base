@@ -109,13 +109,23 @@ class Wrapper extends PureComponent {
 
         <Main>
 
-          <Cms index={0} self={this} />
-
-          <Content index={1} self={this} />
-
-          <Map index={2} self={this} />
+        <div 
+          style={{
+            height: '90vh',
+            width: '100vw',
+            top: '10vh'
+          }}
+          className=" relative flex flex-column w-100 h-100 z-1 bg-white  ">
 
           {this.props.children}
+
+          </div> 
+
+          <Cms index={1} self={this} />
+
+          {/* <Content index={2} self={this} /> */}
+
+          <Map index={3} self={this} />
 
         </Main>
 
@@ -146,10 +156,23 @@ export default Wrapper;
 Wrapper.contextType = AppContext
 
 
+const Children = (props) => (
+  <div 
+          style={{
+            height: '90vh',
+            width: '100vw',
+            top: '10vh'
+          }}
+          className=" relative flex flex-column w-100 h-100 z-99 ">
+
+          {props.children}
+
+          </div> 
+)
 const Main = (props) => (
-  <>
+  <section id="Main">
 
     { props.children }
 
-  </>
+  </section>
 )

@@ -6,6 +6,7 @@
     "@blueprintjs/core": "^3.28.1",
     "@brainhubeu/react-carousel": "^1.16.0",
     "@contentful/rich-text-react-renderer": "^13.4.0",
+    "@contentful/rich-text-types": "^14.1.1",
     "@mapbox/mapbox-gl-geocoder": "^4.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -16,7 +17,7 @@
     "@urbica/react-map-gl-cluster": "^0.2.0",
     "antd": "^4.2.4",
     "antd-mobile": "^2.3.2",
-    "contentful": "^7.14.4",
+    "contentful": "^7.14.6",
     "contentful-management": "^5.26.6",
     "deck.gl": "^8.1.8",
     "mapbox-gl": "^1.10.1",
@@ -33,6 +34,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.3",
     "react-scrollama": "^2.2.8",
+    "react-social-login": "^3.4.9",
     "react-spring": "^8.0.27"
   },
   "scripts": {
