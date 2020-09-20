@@ -48,15 +48,15 @@ class About extends PureComponent {
       <div className="AboutWrapper flex flex-column w-100 h-100 ">
         <div 
         id="hero" 
-        className=" bg-center bg-cover pt6 pb3 ph5 "
+        className=" bg-center bg-cover pt6 pb3 ph5 bg-white bb b--black-05 "
         style={{
-          backgroundColor: '#c4ffef'
+          // backgroundColor: '#c4ffef'
           // height: '30vh',
           // background: 'url('+ this.state.data.image +')'
         }}
         >
 
-        <h1 className=" f2 fw6 white ">{this.state.data.title}</h1>
+        <h1 className=" f2 fw6 black ">{this.state.data.title}</h1>
 
         </div>
 

@@ -45,17 +45,17 @@ class Nav extends PureComponent {
       {
         label: 'Home',
         link: '/',
-        icon: ''
+        icon: 'home'
       },
       {
         label: 'About',
         link: '/about',
-        icon: ''
+        icon: 'info'
       },
       {
-        label: 'About',
-        link: '/',
-        icon: ''
+        label: 'Contact',
+        link: '/contact',
+        icon: 'ring'
       },
     ]
 
@@ -67,7 +67,7 @@ class Nav extends PureComponent {
         style={{
           height: '10vh'
         }}
-        className=" NavWrapper z-9 fixed top-0 left-0 w-100 bg-white shadow-1 ">
+        className=" NavWrapper z-9 fixed top-0 left-0 w-100 bg-white overflow-hidden bb b--black-05 ">
 
         <div
 
@@ -77,22 +77,25 @@ class Nav extends PureComponent {
             id="logotext"
             className="flex flex-row items-center justify-start">
 
-            <span className="pointer dim grow f3 tracked fw6 black- orange  bebas  ph4">{config.app.logotext}</span>
+            <span className="pointer dim f3 tracked fw6 black-10  bebas  ph5 pv4 br b--black-05">{config.app.logotext}</span>
 
           </div>
 
-          <div className="flex flex-row">
+          <div className="flex flex-row  br bl b--black-05 pv4 ph4">
 
             {
               items.map((item, index) => (
                 <Link
                   to={item.link}
                   key={index}
-                  className=" pointer flex flex-row items-center justify-start ph2 pv2">
+                  className=" link pointer flex flex-row items-center justify-start ph4 pv3">
 
-                  <Icon icon={item.icon} iconSize={20} />
+                  <Icon icon={item.icon} iconSize={16} style={{
+                   color: '#ececec',
+              fill: '#ececec'
+                  }} />
 
-                  <span className=" grow dim sans-serif f5 fw6 black">{item.label}</span>
+                  <span className=" dim sans-serif f5 fw6 black-30 ml2">{item.label}</span>
 
                 </Link>
               ))
@@ -100,9 +103,15 @@ class Nav extends PureComponent {
 
           </div>
 
-          <div className="flex flex-row items-center justify-start ph4">
+          <div className="pointer flex flex-row items-center justify-start ph5 pv4 bl b--black-05">
 
-            <Icon icon={'menu'} iconSize={20} className="dim grow black-10 hover-red trans-a pointer " />
+            <Icon 
+            style={{
+              color: '#ececec',
+              fill: '#ececec'
+            }}
+            icon={'ring'} 
+            iconSize={20} className="dim  white hover-red trans-a pointer " />
 
           </div>
 
