@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 //import { Test } from './Wrapper.styles';
 import AppContext from '../../../Util/Context/context.js'
-import { DataContext } from '../DataContext/index.js'
+// import { DataContext } from 'containers'
 import { isMobile } from "react-device-detect";
 import { Route, Router, Switch } from "react-router-dom";
 import history from "../../../Util/history.js";
@@ -37,32 +37,54 @@ class Wrapper extends PureComponent {
   next = () => {
 
 
+
     let active = this.state.active
+ 
+    const { actions } = this.context
+
+    // actions.set.update_state_from_child({ child: 'wrapper', data: this.state })
+    
+
+
 
     let __ = active === 2 ? active : active + 1
 
+
+    actions.set.layout.nav.active({ self: this.context.self, active: __ })
+
     this.setState({
 
-      active: __  
-    
+      active: __
+
     })
+
+
 
   }
   prev = () => {
 
     let active = this.state.active
 
-    let __ = active === 0 ? active : active -1
+    const { actions } = this.context
 
+    // actions.set.update_state_from_child({ child: 'wrapper', data: this.state })
+    
+    let __ = active === 0 ? active : active - 1
+    
+    actions.set.layout.nav.active({ self: this.context.self, active: __ })
+    
     this.setState({
 
-      active: __  
-    
+      active: __
+
     })
+
 
   }
 
   componentDidMount = () => {
+
+    console.log('Wrapper : mounted : context ---> ', this.context )
 
     Mousetrap.bind("left", this.prev)
 
@@ -85,7 +107,7 @@ class Wrapper extends PureComponent {
     // console.log('Wrapper will unmount');
 
     Mousetrap.unbind("left")
-    
+
     Mousetrap.unbind("right")
 
   }
@@ -95,49 +117,53 @@ class Wrapper extends PureComponent {
     let { active } = this.state
 
     if (this.state.hasError) {
-      
+
       return <h1>Something went wrong.</h1>
 
     }
     return (
 
-      <DataContext>
+      <AppContext.Consumer>
+        {
+          props => (
 
-        <Helmet />
+            console.log('AppContext.Consumer : props ---> ',props),
+              
+              <>
 
-        <Nav />
+              <Helmet />
 
-        <Main>
+              <Nav />
 
-        <div 
-          style={{
-            height: '90vh',
-            width: '100vw',
-            top: '10vh'
-          }}
-          className=" relative flex flex-column w-100 h-100 z-1 bg-white  ">
+              <Main>
 
-          {this.props.children}
+                <Pages index={0} active={active} self={this} >
 
-          </div> 
+                  {this.props.children}
 
-          <Cms index={1} self={this} />
+                </Pages>
 
-          {/* <Content index={2} self={this} /> */}
+                <Cms index={1} active={active} self={this} />
 
-          <Map index={3} self={this} />
+                {/* <Content index={2} self={this} /> */}
 
-        </Main>
+                <Map index={2} active={active} self={this} />
 
-        <Overlay />
+              </Main>
 
-        <Drawers />
+              <Overlay />
 
-        <Dialogs />
+              <Drawers />
 
-        <Offcanvas />
+              <Dialogs />
 
-      </DataContext>
+              <Offcanvas />
+
+              </>
+          )
+        }
+
+      </AppContext.Consumer>
 
     )
   }
@@ -157,22 +183,65 @@ Wrapper.contextType = AppContext
 
 
 const Children = (props) => (
-  <div 
-          style={{
-            height: '90vh',
-            width: '100vw',
-            top: '10vh'
-          }}
-          className=" relative flex flex-column w-100 h-100 z-99 ">
+  <div
+    style={{
+      height: '90vh',
+      width: '100vw',
+      top: '10vh'
+    }}
+    className=" relative flex flex-column w-100 h-100 z-99 ">
 
-          {props.children}
+    {props.children}
 
-          </div> 
+  </div>
 )
 const Main = (props) => (
   <section id="Main">
 
-    { props.children }
+    {props.children}
 
   </section>
 )
+
+const Pages = (props) => {
+
+
+  const { index, self, children } = props
+  const { state } = self
+  const { active } = state
+
+  return (
+    <div
+
+      style={{
+
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh'
+
+      }}
+
+      className={
+        (active === index ? " o-1 " : " o-0 ")
+        + (" bg-white ")}
+
+    // style={{
+    //   height: '90vh',
+    //   width: '100vw',
+    //   top: '10vh'
+    // }}
+    // className=" relative flex flex-column w-100 h-100 z-1 bg-white  "
+
+    >
+
+      {children}
+
+    </div>
+  )
+
+}
+
+
+

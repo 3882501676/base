@@ -1,0 +1,147 @@
+import React,{ useState, useRef  } from 'react'
+import {GeolocateControl } from 'react-map-gl'
+// import config from '../config'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import Config from '../../../../../../Util/config.json'
+import MapGL, { Marker } from '@urbica/react-map-gl';
+import Cluster from '@urbica/react-map-gl-cluster';
+
+const TOKEN=Config.api.keys.mapbox
+
+const geolocateStyle = {
+  float: 'left',
+  margin: '50px',
+  padding: '10px'
+};
+
+const style = {
+    width: '20px',
+    height: '20px',
+    color: '#fff',
+    background: '#1978c8',
+    borderRadius: '20px',
+    textAlign: 'center'
+};
+
+
+
+class ClusterMarker extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick() {
+        const { onClick, ...cluster } = this.props;
+        onClick(cluster);
+    }
+
+    render() {
+        const { longitude, latitude, pointCount } = this.props;
+
+        return (
+            <Marker longitude={longitude} latitude={latitude}>
+                <div onClick={this.onClick} style={{ ...style, background: '#f28a25' }}>
+                    {pointCount}
+                </div>
+            </Marker>
+        );
+    }
+}
+
+
+
+const Map = (props) => {
+
+  const [viewport, setViewPort ] = useState({
+    width: "100%",
+    height: 900,
+    latitude: props.location.lat,
+    longitude: props.location.lon,
+    zoom: 2
+  })
+
+  const mapRef = useRef()
+
+ 
+
+  const _onViewportChange = viewport => setViewPort({...viewport, transitionDuration: 3000 })
+  
+  return (
+
+    <div style={{ margin: '0 auto'}}>
+      
+      <h1 style={{textAlign: 'center', fontSize: '25px', fontWeight: 'bolder' }}>GeoLocator: Click To Find Your Location or click <a href="/search">here</a> to search for a location</h1>
+      
+      <MapGL
+
+        {...viewport}
+
+        style={{ width: '100%', height: '100vh' }}
+        
+        mapboxApiAccessToken={TOKEN}
+
+        accessToken={TOKEN}
+        
+        mapStyle="mapbox://styles/mapbox/dark-v8"
+        
+        onViewportChange={_onViewportChange}
+
+        zoom={50}
+
+        options={{ flyTo: false }}
+
+      >
+
+                    <Cluster
+
+                        ref={mapRef}
+
+                        radius={40}
+                        
+                        extent={512}
+                        
+                        nodeSize={64}
+                        
+                        component={cluster => (
+
+                            <ClusterMarker onClick={this.props.onClick} {...cluster} />
+
+                        )}
+
+                    >
+
+                        {
+
+                            props.providers.map((provider, index) => (
+
+                                console.log(' Provider Data --> ', provider ),
+
+                                <Marker
+
+                                    key={provider.id}
+                                    longitude={provider.location.lon}
+                                    latitude={provider.location.lat}
+
+                                >
+
+                                    <div style={style} onClick={() => { this.props.actions.selectprovider(provider) }} />
+
+                                </Marker>
+
+                            ))
+                        }
+
+                    </Cluster>
+
+        <GeolocateControl
+          style={geolocateStyle}
+          positionOptions={{enableHighAccuracy: true}}
+          trackUserLocation={true}
+        />
+      </MapGL>
+    </div>
+  )
+}
+
+export default Map

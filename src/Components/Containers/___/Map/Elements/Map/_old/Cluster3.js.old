@@ -1,0 +1,608 @@
+import React from 'react';
+import ReactDOMServer from 'react-dom/server'
+import ReactDOM from 'react-dom';
+import { randomPoint } from '@turf/random';
+import MapGL, { Marker } from '@urbica/react-map-gl';
+import mapboxgl from 'mapbox-gl';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
+import AppContext from '../../../../../../Util/Context/app.js'
+
+// import Cluster from '@urbica/react-map-gl-cluster';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import Config from '../../../../../../Util/config.json'
+
+const bbox = [-160, -70, 160, 70];
+const points = randomPoint(50, { bbox }).features;
+
+points.forEach((point, index) => (point.id = index));
+
+const style = {
+    width: '20px',
+    height: '20px',
+    color: '#fff',
+    background: '#1978c8',
+    borderRadius: '20px',
+    textAlign: 'center'
+}
+
+const mapContainerStyle = {
+    position: 'absolute',
+    top: '0',
+    right: '0',
+    left: '0',
+    bottom: '0',
+    height: '100vh',
+    width: '100%'
+}
+
+class ClusterMarker extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick() {
+        const { onClick, ...cluster } = this.props;
+        onClick(cluster);
+    }
+
+    render() {
+        const { longitude, latitude, pointCount } = this.props;
+
+        return (
+            <Marker longitude={longitude} latitude={latitude}>
+                <div onClick={this.onClick} style={{ ...style, background: '#f28a25' }}>
+                    {pointCount}
+                </div>
+            </Marker>
+        );
+    }
+}
+
+class ClusterMap3 extends React.PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            viewport: {
+                latitude: this.props.location.lat || 0,
+                longitude: this.props.location.lon || 0,
+                zoom: this.props.zoom || 50,
+                pitch: this.props.pitch
+            },
+            ready: true,
+            providers: [],
+            geojson: {}
+        };
+
+        this._cluster = React.createRef();
+
+        this.mapRef = React.createRef()
+
+        this.onClick = this.onClick.bind(this);
+        this.onViewportChange = this.onViewportChange.bind(this);
+        this.selectProvider = this.selectProvider.bind(this)
+        // this.setViewport = this.setViewport.bind(this)
+    }
+
+    onViewportChange() {
+        this.setState({
+            viewport: {
+                latitude: this.props.location.lat,
+                longitude: this.props.location.lon,
+                zoom: this.props.zoom,
+                pitch: this.props.pitch
+            }
+        });
+    }
+
+    onClick(cluster) {
+
+        const { clusterId, longitude, latitude } = cluster;
+
+        const supercluster = this._cluster.current.getCluster();
+        const zoom = supercluster.getClusterExpansionZoom(clusterId);
+
+        this.setState(state => {
+            const newVewport = {
+                ...state.viewport,
+                latitude,
+                longitude,
+                zoom
+            };
+
+            return { ...state, viewport: newVewport };
+        });
+
+    }
+
+   async selectProvider(provider) {
+
+        // console.log(' Provider ', JSON.parse( provider.data ) )
+
+        await this.context.actions.mapactions.selectProvider(provider)
+
+
+    }
+
+    componentWillReceiveProps() {
+
+        // alert('change')
+        // this.onViewportChange()
+
+        // this.state.viewport.zoom !== this.props.zoom && this.setState({ ready: false})
+
+        // setTimeout( () => {
+        //     this.setState({ ready: true })
+        // },1000)
+        // this.onViewportChange()
+
+    }
+
+    componentDidMount() {
+
+        // alert()
+
+
+
+        let self = this;
+
+        console.log('Map Props --> ', this.props)
+
+        let providers_ = []
+
+        // this.props.data && this.props.data.providers && this.props.data.providers.map((p, index) => (
+
+
+
+
+        // ))
+
+        if(this.props.ready) {
+
+        for (let item of this.props.data.providers) {
+
+            // console.log('Provider', item)
+
+            for (let provider of item.items) {
+
+                // console.log('Provider Item', provider)
+
+                if (provider.fields && provider.fields.location) {
+
+                    let feature = {
+
+                        type: 'Feature',
+
+                        geometry: {
+
+                            type: 'Point',
+                            coordinates: [provider.fields.location.lon, provider.fields.location.lat]
+
+                        },
+
+                        properties: {
+
+                            data: provider,
+                            title: provider.fields.title || "n/a",
+                            description: provider.fields.description || "n/a",
+                            avatar: provider.fields.media && provider.fields.media[0] && provider.fields.media[0].fields.file.url || "https://static.vecteezy.com/system/resources/previews/000/599/219/non_2x/vector-abstract-yellow-triangles-random-pattern-on-white-background.jpg"
+                        
+                        }
+
+                    }
+
+                    console.log('Feature ', feature)
+
+                    providers_.push(feature)
+                    
+                }
+                else {
+                    
+                    console.log('No location data in provider')
+
+                }
+
+            }
+
+        }
+
+        console.log('Providers ', providers_)
+
+        var geojson = {
+
+            type: 'FeatureCollection',
+            features: providers_
+        
+        }
+
+        this.setState({
+
+            providers: providers_,
+            ready: true,
+            zoom: this.props.zoom,
+            geojson: geojson
+
+        })
+
+        mapboxgl.accessToken = Config.api.keys.mapbox
+
+        let map = new mapboxgl.Map({
+
+            container: this.mapContainer,
+            // style: 'mapbox://styles/mapbox/light-v9',
+            style: 'mapbox://styles/quantacom/ckb33al8k07io1iklsvcudnjy',
+            // center: [this.props.location.lon, this.props.location.lat],
+            center: [this.props.location.lon, this.props.location.lat],
+            zoom: 50,
+            pitch: 50
+
+        })
+
+        console.log('Location --> ',[this.props.location.lon, this.props.location.lat])
+
+
+
+
+        // var map = new mapboxgl.Map({
+        //     container: this.mapRef,
+        //     style: 'mapbox://styles/mapbox/dark-v10',
+        //     center: [-103.59179687498357, 40.66995747013945],
+        //     zoom: 3
+        // })
+
+        var geocoder = new MapboxGeocoder({ 
+            
+            // Initialize the geocoder
+
+            accessToken: mapboxgl.accessToken, // Set the access token
+            mapboxgl: mapboxgl, // Set the mapbox-gl instance
+            marker: false, // Do not use the default marker style
+        
+        })
+
+        map.on('load', function () {
+            // Add a new source from our GeoJSON data and
+            // set the 'cluster' option to true. GL-JS will
+            // add the point_count property to your source data.
+            map.addSource('providers', {
+
+                type: 'geojson',
+                // Point to GeoJSON data. This example visualizes all M1.0+ providers
+                // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+                data: geojson,
+                cluster: true,
+                clusterMaxZoom: 14, // Max zoom to cluster points on
+                clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+            
+            })
+
+            var nav = new mapboxgl.NavigationControl({ position: 'bottom-left', showCompass: true, visualizePitch: true })
+
+            map.addControl(nav, 'top-left')
+
+            const geolocate = new mapboxgl.GeolocateControl({
+
+                positionOptions: {
+                
+                    enableHighAccuracy: true
+
+                },
+
+                trackUserLocation: true
+
+            })
+
+            map.addControl(geolocate)
+
+            // geolocate.on('geolocate', function () {
+
+            //     console.log('A geolocate event has occurred.')
+
+            // })
+
+            // Add the geocoder to the map
+
+            map.addControl(geocoder)
+
+            //   console.log(ReactDOM.findDOMNode(this.refs[this.props.geocoderInput]))
+
+            //   ReactDOM.findDOMNode(this.refs[geocoderInput]).appendChild(geocoder.onAdd(map));
+
+            map.addLayer({
+                id: 'clusters',
+                type: 'circle',
+                source: 'providers',
+                filter: ['has', 'point_count'],
+                paint: {
+                    // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                    // with three steps to implement three types of circles:
+                    //   * Blue, 20px circles when point count is less than 100
+                    //   * Yellow, 30px circles when point count is between 100 and 750
+                    //   * Pink, 40px circles when point count is greater than or equal to 750
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        '#51bbd6',
+                        100,
+                        '#f1f075',
+                        750,
+                        '#f28cb1'
+                    ],
+                    'circle-radius': [
+                        'step',
+                        ['get', 'point_count'],
+                        20,
+                        100,
+                        30,
+                        750,
+                        40
+                    ]
+                }
+            })
+
+            map.addLayer({
+                id: 'cluster-count',
+                type: 'symbol',
+                source: 'providers',
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': '{point_count_abbreviated}',
+                    'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                    'text-size': 12
+                }
+            })
+
+            map.addLayer({
+                id: 'unclustered-point',
+                type: 'circle',
+                source: 'providers',
+                filter: ['!', ['has', 'point_count']],
+                paint: {
+                    'circle-color': '#11b4da',
+                    'circle-radius': 10,
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#fff'
+                }
+            })
+
+
+            map.on('click', 'clusters', function (e) {
+
+                var features = map.queryRenderedFeatures(e.point, {
+                    layers: ['clusters']
+                })
+
+                var clusterId = features[0].properties.cluster_id;
+
+                map.getSource('providers').getClusterExpansionZoom(
+
+                    clusterId,
+
+                    function (err, zoom) {
+
+                        if (err) return
+
+                        map.easeTo({
+                            center: features[0].geometry.coordinates,
+                            zoom: zoom
+                        });
+                    }
+                )
+
+                const clusterSource = map.getSource('providers')
+
+                // Get Next level cluster Children
+                // 
+                // clusterSource.getClusterChildren(clusterId, function (err, aFeatures) {
+
+                //     console.log('getClusterChildren', err, aFeatures);
+
+                //     for (let item of aFeatures) {
+
+                //         if( item.properties.cluster && item.properties.cluster) {
+
+                //         }
+                //         else {
+
+                //             const provider = item
+
+                //         const coordinates = item.geometry.coordinates
+
+                //         console.log('coords -> ', coordinates )
+
+                //         const itemIndex = aFeatures.indexOf(item)
+
+                //         var m = ( "<div class='flex flex-column pa2'>" ) + 
+                //         ( "<div class='flex flex-column items-center justify-center pa2 f5 fw6 black w3 h3 round cover center bg-cover mv3' style='background-image: url("+ item.properties.avatar +")'></div>" ) + 
+                //         ( "<div class='flex flex-column items-center justify-center  pa2 f5 fw6 black'>"+ item.properties.title +"</div>" ) + 
+                //         ( "<div class='flex flex-column items-center justify-center  pa2 f6 fw5 black-50'>"+ item.properties.description +"</div>" ) + 
+                //         ( "<div class='flex flex-column items-center justify-center  pt3 ph2'><div id='booknow-" + itemIndex  +"' class='pointer ph4 pv2 br1 f6 fw6 white bg-blue bn hover-bg-black-20'>Book Now</div></div>" )+
+                //         ( "</div>" )
+
+                //         var popup = new mapboxgl.Popup({ closeOnClick: true })
+
+                //         .setLngLat([...coordinates])
+                //         .setHTML(m)
+                //         .addTo(map)
+
+
+                //         let button = document.getElementById("booknow-" + itemIndex)
+                //         if (button) {
+        
+                //             button.addEventListener("click", function () {
+        
+                //                 console.log(item.properties.data)
+        
+                //                 self.selectProvider(item.properties.data.fields)
+                //                 // alert()
+                //                 // document.getElementById("demo").innerHTML = "Hello World";
+                //                 // console.log('Book Now ',e)
+        
+                //             });
+        
+                //         }
+                            
+                //         }
+
+                        
+
+                //         // let div = document.createElement('div');
+
+                //         // let marker = new mapboxgl.Marker(div, {
+
+                //         //     offset: [ -20, 80 ]
+
+                //         // });
+                
+                //         // marker.setLngLat(coordinates);
+                
+                //         // ReactDOM.render(
+
+                //         //     <CustomMarker provider={provider} />,
+
+                //         //     div,
+
+                //         //     () => {
+                                
+                //         //         marker.addTo(map)
+
+                //         //     }
+
+                //         // )
+
+                //         // // console.log('',)
+
+                //         // const rendered = ReactDOMServer.renderToStaticMarkup(
+
+                //         //     <CustomMarker provider={{ provider: item }} />
+
+                //         // )
+
+                //         // const r2 = ReactDOMServer.renderToStaticMarkup(rendered)
+
+                //         // const r3 = ReactDOMServer.renderToString(rendered)
+
+                //         // const el = document.createElement('div')
+
+                //         // el.className = 'marker'
+                //         // const el2 = ReactDOM.render(
+                //         //     rendered,
+                //         //     el
+                //         //   )
+
+                //         // const el2 = ReactDOM.render(<CustomMarker provider={{ provider: item }} />, el, () => console.log(el.innerHTML))
+
+
+                //         // console.log('Rendered Marker ---> ', el)
+
+                //         // var m = ( "<div class='one'>" ) + 
+                //         // ( "<div class='two'>"+ item.properties.title +"</div>" ) + 
+                //         // ( "<div class='threee'>"+ item.properties.description +"</div>" ) + 
+                //         // ( "</div>" )
+
+                //         // const el2 = el.dangerouslySetInnerHTML={ m }
+
+                //         // console.log('el -->',el2)
+
+                //         // const marker = new mapboxgl.Marker(m)
+
+                //         //     .setLngLat([...coordinates])
+
+                //         //     .addTo(map)
+
+                //     }
+
+
+                // })
+
+            
+
+            })
+
+
+            map.on('click', 'unclustered-point', function (e) {
+
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var title = e.features[0].properties.title || 'n/a';
+                var description = e.features[0].properties.description || "n/a";
+                var avatar = e.features[0].properties.avatar;
+                var properties = e.features[0].properties
+
+                console.log('Properties', e.features[0].properties)
+
+                const PopupContent = ('<div class="flex flex-column  items-center justify-center  pa2">') +
+                    ('<div class="flex flex-column items-center justify-center pa2 f5 fw6 black w3 h3 round cover center bg-cover mv3 " style="background-image: url(' + avatar + ')"></div>') +
+                    ('<div class="flex flex-column items-center justify-center  pa2 f5 fw6 black">' + title + '</div>') +
+                    ('<div class="flex flex-column items-center justify-center  pa2 f6 fw5 black-50">' + description + '</div>') +
+                    ('<div class="flex flex-column items-center justify-center  pt3 ph2"><div id="booknow" class="pointer ph4 pv2 br1 f6 fw6 white bg-blue bn hover-bg-black-20">Book Now</div></div>') +
+                    ('</div>')
+
+
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(PopupContent)
+                    .addTo(map);
+
+
+                let el = document.getElementById("booknow")
+
+                if (el) {
+
+                    document.getElementById("booknow").addEventListener("click", function () {
+
+
+                        self.selectProvider(properties)
+                        // alert()
+                        // document.getElementById("demo").innerHTML = "Hello World";
+                        // console.log('Book Now ',e)
+
+                    })
+
+                }
+
+            })
+
+            map.on('mouseenter', 'clusters', function () {
+                map.getCanvas().style.cursor = 'pointer';
+            })
+
+            map.on('mouseleave', 'clusters', function () {
+                map.getCanvas().style.cursor = '';
+            })
+
+        })
+
+    }
+
+    }
+
+    render() {
+
+        const { data, zoom, pitch, ready } = this.props
+
+        const { viewport, providers } = this.state
+
+        return (
+
+            this.state.ready ?
+
+                <div
+                    ref={el => this.mapContainer = el}
+                    id="Map" className="mapContainerStyle- w-100 vh-100 top-0 right-0 absolute "></div>
+
+                : <div>Loading</div>
+        )
+    }
+}
+
+export default ClusterMap3
+ClusterMap3.contextType = AppContext
+
+const CustomMarker = (props) => (
+    <div className="customHTMLmarker">{props.provider.title}</div>
+)

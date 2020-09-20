@@ -35,7 +35,9 @@
     "react-scripts": "3.4.3",
     "react-scrollama": "^2.2.8",
     "react-social-login": "^3.4.9",
-    "react-spring": "^8.0.27"
+    "react-spring": "^8.0.27",
+    "utils": "file:src/Util",
+    "containers": "file:src/Components/Containers"
   },
   "scripts": {
     "start": "react-scripts start",

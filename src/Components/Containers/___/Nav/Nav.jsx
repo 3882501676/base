@@ -41,7 +41,7 @@ class Nav extends PureComponent {
 
   render() {
 
-    const items = [
+    const pages_menu = [
       {
         label: 'Home',
         link: '/',
@@ -50,7 +50,7 @@ class Nav extends PureComponent {
       {
         label: 'About',
         link: '/about',
-        icon: 'info'
+        icon: 'info-sign'
       },
       {
         label: 'Contact',
@@ -58,6 +58,43 @@ class Nav extends PureComponent {
         icon: 'ring'
       },
     ]
+
+    const cms_menu = []
+
+    const map_menu = [
+      {
+        label: 'One',
+        link: '/',
+        icon: 'geosearch'
+      },
+      {
+        label: 'Two',
+        link: '/',
+        icon: 'intersection'
+      },
+      {
+        label: 'Three',
+        link: '/',
+        icon: 'predictive-analysis'
+      },
+      {
+        label: 'Four',
+        link: '/',
+        icon: 'social-media'
+      }    
+    ]
+
+    const menus = [
+      pages_menu,
+      cms_menu,
+      map_menu
+    ]
+
+    const active = this.context.state.active_menu
+
+    // alere
+
+    const active_menu = menus[active]
 
     if (this.state.hasError) {
       return <h1>Something went wrong.</h1>;
@@ -81,10 +118,10 @@ class Nav extends PureComponent {
 
           </div>
 
-          <div className="flex flex-row  br bl b--black-05 pv4 ph4">
+          <div className="flex flex-row w-100 items-center justify-end br bl b--black-05 pv4 ph4">
 
             {
-              items.map((item, index) => (
+              active_menu.map((item, index) => (
                 <Link
                   to={item.link}
                   key={index}
@@ -100,6 +137,27 @@ class Nav extends PureComponent {
                 </Link>
               ))
             }
+
+          </div>
+
+          <div className="pointer flex flex-row items-center justify-center ph4 pv4 bl b--black-05">
+
+              <button 
+
+                style={{
+                  
+                  padding: '1.6vh 10vh',
+                  fontWeight: '500',
+                  boxShadow: '0px 2px 10px 0px #2f89fa2e'
+
+                }}
+                
+                className=" pointer hover-child-slide-right flex flex-row items-center justify-center bn ph3 pv2 br1  bg-blue f5 fw6 white "
+                >
+                <span className="flex">{"Register"}</span>
+                <span className="child  hover-child flex ml2 hover-slide-right"><Icon icon={'arrow-right'} iconSize={15} style={{ fill: 'white'}} /></span>
+                
+              </button>
 
           </div>
 
@@ -132,3 +190,5 @@ Nav.defaultProps = {
 };
 
 export default Nav;
+
+Nav.contextType = AppContext

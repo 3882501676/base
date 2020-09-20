@@ -1,0 +1,1 @@
+export { default as setimage } from './setimage.js'

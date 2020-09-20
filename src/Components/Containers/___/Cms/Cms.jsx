@@ -63,8 +63,8 @@ class Cms extends PureComponent {
       + ( " bg-orange " ) }
       
       >
-        <div className=" Cms flex ">
-          CMS
+        <div className=" Cms h-100 flex items-center justify-center ">
+          <h1 className=" f1 fw6 white ">{"CMS"}</h1>
         </div>
 
       </div>

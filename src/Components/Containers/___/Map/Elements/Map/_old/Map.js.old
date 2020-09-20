@@ -1,0 +1,190 @@
+import React, { Component } from 'react';
+import ReactMapGL, {NavigationControl, NavigationFeature } from 'react-map-gl';
+import MapGL, { Marker } from '@urbica/react-map-gl';
+import Cluster from '@urbica/react-map-gl-cluster';
+import Config from '../../../../../../Util/config.json'
+
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile,
+} from "react-device-detect";
+
+
+const style = {
+    width: '20px',
+    height: '20px',
+    color: '#fff',
+    background: '#1978c8',
+    borderRadius: '20px',
+    textAlign: 'center'
+};
+
+const ClusterMarker = ({ longitude, latitude, pointCount }) => (
+    <Marker longitude={longitude} latitude={latitude}>
+        <div style={{ ...style, background: '#f28a25' }}>{pointCount}</div>
+    </Marker>
+);
+
+
+class Map extends React.Component {
+
+    constructor(props) {
+
+        super(props)
+
+        this.state = {
+            viewport: {
+                width: isMobile ? '100vw' : '100vw',
+                height: '100vw',
+                lat: this.props.location.lat,
+                long: this.props.location.lon,
+                zoom: 8
+            },
+            providers: [],
+            zoom: 100
+        };
+
+        console.log('Map props -->', props)
+    }
+
+    componentDidMount() {
+        let providers_ = []
+
+        // this.props.data && this.props.data.providers && this.props.data.providers.map((p, index) => (
+
+
+
+
+        // ))
+
+
+
+        for (let item of this.props.data.providers) {
+
+            // console.log('Provider', item)
+
+            for (let provider of item.items) {
+
+                // console.log('Provider Item', provider)
+
+                if (provider.fields && provider.fields.location) {
+
+                    let feature = {
+
+                        type: 'Feature',
+
+                        geometry: {
+
+                            type: 'Point',
+                            coordinates: [provider.fields.location.lon, provider.fields.location.lat]
+
+                        },
+
+                        properties: {
+
+                            data: provider,
+                            title: provider.fields.title || "n/a",
+                            description: provider.fields.description || "n/a",
+                            avatar: provider.fields.media && provider.fields.media[0] && provider.fields.media[0].fields.file.url || "https://static.vecteezy.com/system/resources/previews/000/599/219/non_2x/vector-abstract-yellow-triangles-random-pattern-on-white-background.jpg",
+                            lat: provider.fields.location.lat,
+                            long: provider.fields.location.lon,
+                        }
+
+                    }
+
+                    console.log('Feature ', feature)
+
+                    providers_.push(feature)
+                    
+                }
+                else {
+                    
+                    console.log('No location data in provider')
+
+                }
+
+            }
+
+        }
+
+        console.log('Providers ', providers_)
+
+        this.setState({
+
+            providers: providers_,
+            ready: true,
+            // zoom: this.props.zoom,
+            // geojson: geojson
+
+        })
+
+    }
+
+    render() {
+        return (
+
+            <ReactMapGL
+                lat={this.state.lat}
+                long={this.state.long}
+                zoom={this.state.zoom}
+                // mapStyle={'mapbox://styles/quantacom/ckaybclcf07vz1io78r65qjmx'}
+                mapStyle={'mapbox://styles/quantacom/ckd6na75l04fx1ipfl9chuy24'}
+                // mapStyle={'mapbox://styles/quantacom/ckaysmico0aj31imrahbu1dpa'}
+                mapboxApiAccessToken={Config.api.keys.mapbox}
+                {...this.state.viewport}
+                onViewportChange={(viewport) => this.setState({ viewport })}
+            >
+
+{/* { this.state.ready && 
+                <Cluster maxZoom={150} radius={40} extent={512} nodeSize={64} component={ClusterMarker}>
+
+                    {
+                        this.state.providers.map((provider, index) => (
+
+                            console.log('** Provider ',provider),
+
+                            <Marker key={provider.properties.title} longitude={provider.geometry.coordinates[1]} latitude={provider.geometry.coordinates[0]} >
+                                                               
+                                                               <div style={{ ...style, background: '#f28a25' }}>{provider.properties.title}</div>
+                                                           
+                                                           </Marker>
+
+                        ))
+                        
+                    }
+
+                </Cluster>
+
+} */}
+
+
+                {/* <Marker longitude={this.state.viewport.longitude} latitude={this.state.viewport.latitude}>
+                            <Pin size={10} />
+                        </Marker> */}
+
+                <div className="pa4">
+
+                    <NavigationControl />
+
+                </div>
+
+            </ReactMapGL>
+        );
+    }
+}
+
+export default Map
+
+const Pin = () => (
+    
+    <div className="flex items-center justify-center w3 h3 bg-white round"> PIN </div>
+    
+    )
+
+    {/* console.log('service --> ** ', service), */}
+        {/* console.log('provider --> ** ', provider), */}
+
+
+        

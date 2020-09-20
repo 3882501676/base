@@ -1,0 +1,210 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { randomPoint } from '@turf/random';
+import MapGL, { Marker } from '@urbica/react-map-gl';
+import Cluster from '@urbica/react-map-gl-cluster';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import Config from '../../../../../../Util/config.json'
+
+const bbox = [-160, -70, 160, 70];
+const points = randomPoint(50, { bbox }).features;
+
+points.forEach((point, index) => (point.id = index));
+
+const style = {
+    width: '20px',
+    height: '20px',
+    color: '#fff',
+    background: '#1978c8',
+    borderRadius: '20px',
+    textAlign: 'center'
+};
+
+class ClusterMarker extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick() {
+        const { onClick, ...cluster } = this.props;
+        onClick(cluster);
+    }
+
+    render() {
+        const { longitude, latitude, pointCount } = this.props;
+
+        return (
+            <Marker longitude={longitude} latitude={latitude}>
+                <div onClick={this.onClick} style={{ ...style, background: '#f28a25' }}>
+                    {pointCount}
+                </div>
+            </Marker>
+        );
+    }
+}
+
+class ClusterMap extends React.PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            viewport: {
+                latitude: this.props.location.lat || 0,
+                longitude: this.props.location.lon || 0,
+                zoom: this.props.zoom || 50,
+                pitch: 0
+            },
+            ready: false,
+            providers: []
+        };
+
+        this._cluster = React.createRef();
+
+        this.onClick = this.onClick.bind(this);
+        this.onViewportChange = this.onViewportChange.bind(this);
+        // this.setViewport = this.setViewport.bind(this)
+    }
+
+    onViewportChange() {
+        this.setState({ viewport: {
+            latitude: this.props.location.lat,
+            longitude: this.props.location.lon,
+            zoom: this.props.zoom,
+            pitch: this.props.pitch
+        } });
+    }
+
+    onClick(cluster) {
+      
+        const { clusterId, longitude, latitude } = cluster;
+
+        const supercluster = this._cluster.current.getCluster();
+        const zoom = supercluster.getClusterExpansionZoom(clusterId);
+
+        this.setState(state => {
+            const newVewport = {
+                ...state.viewport,
+                latitude,
+                longitude,
+                zoom
+            };
+
+            return { ...state, viewport: newVewport };
+        });
+
+    }
+
+
+    componentWillReceiveProps() {
+
+        // alert('change')
+        // this.onViewportChange()
+
+        // this.state.viewport.zoom !== this.props.zoom && this.setState({ ready: false})
+
+        // setTimeout( () => {
+        //     this.setState({ ready: true })
+        // },1000)
+        // this.onViewportChange()
+        
+    }
+
+    componentDidMount() {
+
+        // alert()
+
+        console.log(' Cluster Props ', this.props)
+
+        let providers = []
+
+        this.props.data && this.props.data.providers && this.props.data.providers.map((p, index) => (
+
+
+            p.items.map((item, index) => (
+
+                item.fields.hasOwnProperty('location') &&
+                providers.push(item.fields)
+
+            ))
+
+        ))
+
+        console.log('Providers ', providers);
+
+        this.setState({
+            providers: providers,
+            ready: true,
+            zoom: this.props.zoom
+        })
+
+
+    }
+
+
+
+    render() {
+        const { data, zoom, pitch, ready } = this.props
+
+        //   cosnt { services, providers } = data
+
+        const { viewport, providers } = this.state;
+
+        return (
+
+            this.state.ready ?
+
+                <MapGL
+                    style={{ width: '100%', height: '100vh' }}
+                    mapStyle='mapbox://styles/mapbox/light-v9'
+                    accessToken={Config.api.keys.mapbox}
+                    onViewportChange={this.onViewportChange}
+                    pitch={pitch}
+                    zoom={this.state.zoom}
+                    maxZoom={200}
+                    minZoom={10}
+                    // onViewportChange={this.setViewport}
+                    {...viewport}
+                >
+
+                    <Cluster
+                        ref={this._cluster}
+                        radius={40}
+                        extent={512}
+                        nodeSize={64}
+                        component={cluster => (
+                            <ClusterMarker onClick={this.onClick} {...cluster} />
+                        )}
+                    >
+
+                        {
+
+                            this.state.providers.map((provider, index) => (
+
+                                console.log(' Provider Data --> ', provider ),
+
+                                <Marker
+
+                                    key={Math.random().toString(36).substr(2, 9)}
+                                    longitude={provider.location.lon}
+                                    latitude={provider.location.lat}
+
+                                >
+                                    <div style={style} onClick={() => { this.props.actions.selectprovider(provider) }} />
+                                </Marker>
+
+                            ))
+                        }
+
+                    </Cluster>
+
+                    
+    
+            </MapGL>
+
+                : <div>Loading</div>
+        );
+    }
+}
+
+export default ClusterMap

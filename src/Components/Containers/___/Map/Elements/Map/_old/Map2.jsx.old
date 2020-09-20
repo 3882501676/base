@@ -1,0 +1,105 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+//import { Test } from './Map.styles';
+// import {GoogleApiWrapper} from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Config } from '../../../../../../Util/index.js'
+
+
+class MapContainer extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedPlace: {
+        name: null
+      },
+      hasError: false,
+    };
+  }
+
+  componentWillMount = () => {
+    console.log('MapContainer will mount');
+  }
+
+  componentDidMount = () => {
+    console.log('MapContainer mounted');
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('MapContainer will receive props', nextProps);
+  }
+
+  componentWillUpdate = (nextProps, nextState) => {
+    console.log('MapContainer will update', nextProps, nextState);
+  }
+
+  componentDidUpdate = () => {
+    console.log('MapContainer did update');
+  }
+
+  componentWillUnmount = () => {
+    console.log('MapContainer will unmount');
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+    return (
+      <div className="MapWrapper">
+        <Map
+        centerAroundCurrentLocation
+      className="map flex w-100 h-100 "
+      google={this.props.google}
+      style={{ height: '100%', position: 'relative', width: '100%' }}
+      zoom={14}
+      initialCenter={{
+            lat: 42.39,
+            lng: -72.52
+        }}
+          >
+
+          {/* 
+          
+          
+          <Marker onClick={this.onMarkerClick}
+            name={'Current location'} />
+
+          <InfoWindow onClose={this.onInfoWindowClose}>
+            <div>
+              <h1>{this.state.selectedPlace.name}</h1>
+            </div>
+          </InfoWindow> 
+          
+          */}
+          
+        </Map>
+      </div>
+    );
+  }
+}
+
+Map.propTypes = {
+  // bla: PropTypes.string,
+};
+
+Map.defaultProps = {
+  // bla: 'test',
+};
+
+// export default MapContainer;
+
+
+// export default GoogleApiWrapper({
+//   apiKey: (YOUR_GOOGLE_API_KEY_GOES_HERE)
+// })(MapContainer)
+
+const LoadingContainer = (props) => (
+  <div>Fancy loading container!</div>
+)
+
+export default GoogleApiWrapper({
+  apiKey: ('AIzaSyBsyaHcoEdTSJSh9KpcXAT4oHa_9Otkt6A'),
+  LoadingContainer: LoadingContainer
+})(MapContainer)

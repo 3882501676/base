@@ -216,6 +216,21 @@
 	}
 }
 
+.hover-child-slide-right .hover-child {
+	opacity: 0;
+
+}
+
+.hover-child-slide-right .hover-child  * {
+	color: white;
+	fill: white;
+}
+
+.hover-child-slide-right:hover .hover-child {
+	animation: nudge-right 0.2s cubic-bezier(0.445, 0.05, 0.55, 0.95) both alternate;
+	-webkit-animation: nudge-right 0.2s cubic-bezier(0.445, 0.05, 0.55, 0.95) both alternate;
+}
+
 .slide-right {
 	animation: slide-right 0.2s cubic-bezier(0.445, 0.05, 0.55, 0.95) both;
 	-webkit-animation: slide-right 0.2s cubic-bezier(0.445, 0.05, 0.55, 0.95) both;
@@ -238,7 +253,27 @@
  * animation slide-right
  * ----------------------------------------
  */
-@-webkit-keyframes slide-right {
+ @keyframes nudge-right {
+	0% {
+		opacity: 0;
+		-webkit-transform: translateX(0);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: translateX(1vw);
+}
+}
+@-webkit-keyframes nudge-right {
+	0% {
+		opacity: 0;
+		-webkit-transform: translateX(0);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: translateX(1vw);
+}
+}
+ @-webkit-keyframes slide-right {
 	0% {
 		-webkit-transform: translateX(0);
 		transform: translateX(0);

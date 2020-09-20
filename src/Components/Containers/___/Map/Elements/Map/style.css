@@ -1,0 +1,176 @@
+.cluster-marker {
+    width: auto;
+    height: auto;
+    color: rgb(255, 255, 255);
+    background: rgb(43, 203, 239);
+    border-radius: 100px;
+    text-align: center;
+    /* border: 4px solid #ffffff4d; */
+    padding: 0.61rem 1rem;
+    font-size: 1rem;
+    font-family: Roboto;
+    display: flex;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.text-overflow {
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+    top: 20px;
+    left: 55px;
+    z-index: -1;
+    padding-left: 1.4rem;
+    padding-right: 0.7rem !important;
+    font-weight: 600;
+    color: #000000;
+    background: #ffffff
+}
+.react-geocoder {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.react-geocoder {
+    position: relative;
+}
+.react-geocoder > input {
+    width: 100%;
+    max-width: 46rem;
+    padding: 2rem;
+    font-size: 1.3rem;
+    font-family: Roboto;
+    font-weight: 500;
+    text-transform: capitalize;
+    color: black;
+    border-radius: 0;
+    border-width: 0px;
+    border-color: white;
+    /* box-shadow: 0px 0px 4px 0px #0000001f; */
+    margin: 0 auto;
+    float: none;
+    border-left: 1px solid #e2e2e2;
+    border-right: 1px solid #e2e2e2;
+}
+.react-geocoder-results {
+    /*width: 100%;
+    max-width: 46rem;
+    background: white;
+    position: absolute;
+    bottom: 10vh;
+    transform: translate3d(0,50vh,0);
+    -webkit-transform: translate3d(0vw,-35vh,0) !important;
+    -moz-transform: translate3d(0vw,-35vh,0) !important;
+    -ms-transform: translate3d(0vw,-35vh,0) !important;
+    -o-transform: translate3d(0vw,-35vh,0) !important;
+    */width: 100%;
+    max-width: 46rem;
+    background: white;
+    position: fixed;
+    top: 0;
+    transform: translate3d(0vw,-35vh,0) !important;
+}
+
+
+.geocoder-dropdown-item {
+    padding: 5px;
+    }
+    .geocoder-dropdown-icon {
+    margin-right: 10px;
+    }
+    .geocoder-dropdown-text {
+    color: #5a3fc0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: larger;
+    }
+    .react-geocoder-item {
+        font-size: 1rem;
+        color: black;
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid rgba(222, 222, 222, 0.65);
+    }
+
+    .marker-ring-inner {
+        width: 90px;
+        height: 90px;
+        left: -10px;
+        top: -10px;
+        position: relative;
+        border-width: 3px;
+        /*box-shadow: 0px 8px 9px 0px #a9a9a9;
+        */border-color: #ffffff05;
+        transition:   all 0.2s ease-in-out;
+        -webkit-transition:   all 0.1s ease-in-out  ;
+        -moz-transition:   all 0.2s ease-in-out  ;
+        -ms-transition:   all 0.2s ease-in-out  ;
+        -o-transition:   all 0.2s ease-in-out  ;
+}
+.marker-ring-inner:hover {
+    width: 130px;
+    height: 130px;
+    left: -30px;
+    top: -30px;
+    position: relative;
+    border-width: 6px;
+    /* box-shadow: 0px 8px 9px 0px #a9a9a9; */
+    border-color: #00bcd4;
+}
+
+    .marker-ring-inner2 {
+        width: 110px;
+        height: 110px;
+        left: -20px;
+        top: -20px;
+        position: relative;
+        border-width: 3px;
+        /*box-shadow: 0px 8px 9px 0px #a9a9a9;
+        */border-color: #ffffff05;
+        transition:   all 0.2s ease-in-out;
+        -webkit-transition:   all 0.1s ease-in-out  ;
+        -moz-transition:   all 0.2s ease-in-out  ;
+        -ms-transition:   all 0.2s ease-in-out  ;
+        -o-transition:   all 0.2s ease-in-out  ;
+}
+.marker-ring-inner2:hover {
+    width: 180px;
+    height: 180px;
+    left: -55px;
+    top: -55px;
+    position: relative;
+    border-width: 3px;
+    /* box-shadow: 0px 8px 9px 0px #a9a9a9; */
+    border-color: #00000026;
+}
+
+.marker-ring-inner3:hover {
+    width: 180px;
+    height: 180px;
+    left: -55px;
+    top: -55px;
+    position: relative;
+    border-width: 0px;
+    /* box-shadow: 0px 8px 9px 0px #a9a9a9; */
+    border-color: #00000026;
+    background: #00000017;
+    z-index: -1;
+}
+
+.marker-ring-inner3 {
+    width: 110px;
+    height: 110px;
+    left: -20px;
+    top: -20px;
+    position: relative;
+    border-width: 3px;
+    /*box-shadow: 0px 8px 9px 0px #a9a9a9;
+    */border-color: #ffffff05;
+    transition:   all 0.2s ease-in-out;
+    -webkit-transition:   all 0.1s ease-in-out  ;
+    -moz-transition:   all 0.2s ease-in-out  ;
+    -ms-transition:   all 0.2s ease-in-out  ;
+    -o-transition:   all 0.2s ease-in-out  ;
+}

@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 // import '../../../../../../../../ti-map/src/App.css';
-import AppContext from '../../../Util/Context/context.js'
+import AppContext, { AppConsumer } from '../../../Util/Context/context.js'
 import { isMobile, deviceDetect } from "react-device-detect";
 import * as device from "react-device-detect";
 import history from '../../../Util/history.js'
 
 import { one, two, three, four, five } from './Actions'
+
+import { set_active_nav, update_state_from_child } from './Actions'
 
 window.device = device
 
@@ -22,9 +24,15 @@ class DataContext extends PureComponent {
     
       a: '',
       b: '',
-      c: ''
+      c: '',
+
+      child_wrapper: {},
+
+      active_menu: 0
+
     
-    };
+    }
+
   }
 
   componentWillMount = () => {
@@ -32,7 +40,7 @@ class DataContext extends PureComponent {
   }
 
   componentDidMount = () => {
-    console.log('DataContext mounted');
+    console.log('DataContext mounted ---> context', this.context );
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -67,12 +75,29 @@ class DataContext extends PureComponent {
           value={{
 
             state: state,
+
+            self: this,
+
+            DataContext_: this,
             
             actions: {
 
               one: one,
               two: two,
-              three: three
+              three: three,
+              set: {
+                update_state_from_child: update_state_from_child,
+                layout: {
+                  nav: {
+                    active: set_active_nav
+                  },
+                  footer: '',
+                  drawer: '',
+                  theme: ''
+                },
+                something: '',
+                another: ''
+              }
             
             },
 
@@ -85,7 +110,8 @@ class DataContext extends PureComponent {
             },
 
             device: { isMobile, deviceDetect },
-            history: history
+            history: history,
+            
 
             }}
             >

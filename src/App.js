@@ -5,7 +5,8 @@ import { Route, Router, Switch } from "react-router-dom";
 import history from "./Util/history.js";
 
 import { Home, About, Login } from './Components/Pages'
-import { Wrapper } from './Components/Containers/Wrapper/index.js'
+// import { Wrapper } from './Components/Containers/Wrapper/index.js'
+import { DataContext, Wrapper } from 'containers'
 
 import './Assets/css/index.css';
 
@@ -13,10 +14,13 @@ import './Assets/css/index.css';
 function App() {
   return (
 
-        <Router history={history}>
+
+    
+    <Router history={history}>
 
           <Switch>
           
+    <DataContext>
               <Wrapper>
           
                   <Route exact path={"/"} component={Home} />
@@ -24,13 +28,15 @@ function App() {
                   <Route exact path={"/about"} component={About} />
           
               </Wrapper>
+            </DataContext>    
           
           </Switch>
         
-        </Router>      
+        </Router>  
+
+        
 
   );
 }
 
 export default App;
-

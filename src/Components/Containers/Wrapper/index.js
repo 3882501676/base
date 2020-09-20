@@ -1,5 +1,5 @@
-// import Wrapper from './Wrapper';
+import Wrapper from './Wrapper';
 
-// export default Wrapper;
+export default Wrapper;
 
-export { default as Wrapper } from './Wrapper'
+// export { default as Wrapper } from './Wrapper'
