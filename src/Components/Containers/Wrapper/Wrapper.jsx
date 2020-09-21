@@ -7,8 +7,8 @@ import { isMobile } from "react-device-detect";
 import { Route, Router, Switch } from "react-router-dom";
 import history from "../../../Util/history.js";
 import { Helmet } from './Elements/Helmet/index.js'
-
-import { Cms, Content, Dialogs, Drawers, Map, Nav, Offcanvas, Overlay } from '../___/index.js'
+import Pages from '../___/Content/Pages.jsx'
+import { Cms, Content, Dialogs, Drawers, D, Map, Nav, Offcanvas, Overlay } from '../___/index.js'
 
 // import mouseTrap from 'react-mousetrap';
 var Mousetrap = require('mousetrap');
@@ -137,23 +137,31 @@ class Wrapper extends PureComponent {
 
               <Main>
 
-                <Pages index={0} active={active} self={this} >
+              
+                <D d_components={this.context.d_components} active={this.context.self.state.d} />
+
+                { active === 1 && <Cms index={1} active={active} self={this} /> }
+
+                { active === 2 && <Map index={2} active={active} self={this} /> }
+
+                { active === 0 && <Pages_ index={0} active={active} self={this} >
 
                   {this.props.children}
 
-                </Pages>
+                </Pages_>
+                }
 
-                <Cms index={1} active={active} self={this} />
+                <Pages />
 
                 {/* <Content index={2} self={this} /> */}
 
-                <Map index={2} active={active} self={this} />
 
+                {/* <Drawers active={this.context.self.state.d} /> */}
+
+              
               </Main>
 
               <Overlay />
-
-              <Drawers />
 
               <Dialogs />
 
@@ -196,14 +204,14 @@ const Children = (props) => (
   </div>
 )
 const Main = (props) => (
-  <section id="Main">
+  <section id="Main" className="site-drawer-render-in-current-wrapper">
 
     {props.children}
 
   </section>
 )
 
-const Pages = (props) => {
+const Pages_ = (props) => {
 
 
   const { index, self, children } = props
@@ -215,17 +223,19 @@ const Pages = (props) => {
 
       style={{
 
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh'
+        // position: 'fixed',
+        // top: 0,
+        // left: 0,
+        // width: '100vw',
+        // height: '100vh'
 
       }}
 
       className={
         (active === index ? " o-1 " : " o-0 ")
-        + (" bg-white ")}
+        + (" bg-white ")
+        + (" overflow-auto ")
+        }
 
     // style={{
     //   height: '90vh',

@@ -46,6 +46,8 @@ class Cms extends PureComponent {
       return <h1>Something went wrong.</h1>;
     }
     return (
+
+      active === index && 
       <div 
       
       style={{
@@ -60,7 +62,7 @@ class Cms extends PureComponent {
 
       className={ 
         ( active === index ? " o-1 " : " o-0 " ) 
-      + ( " bg-orange " ) }
+      + ( " bg-blue " ) }
       
       >
         <div className=" Cms h-100 flex items-center justify-center ">

@@ -1,3 +1,20 @@
+
+.child-white > .child-icon {
+    fill: white !important;
+    /* color: white !important; */
+}
+
+.child-blue > .child-icon {
+    fill: blue !important;
+    color: blue !important;
+}
+
+.bg-navy {
+    background-color: #252635;
+}
+.bg-blue {
+    background-image: linear-gradient( 135deg, #6B73FF 10%, #000DFF 100%) !important;
+}
 .bg-near-white {
     background-color: #ceedff1a !important;
 }

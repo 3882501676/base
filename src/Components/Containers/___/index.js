@@ -8,4 +8,6 @@ export { default as Offcanvas } from './Offcanvas'
 export { default as Overlay } from './Overlay'
 export { default as Content } from './Content'
 
+export { default as D } from './Drawers/D/index.js'
+
 export default ""

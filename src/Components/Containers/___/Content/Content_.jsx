@@ -5,24 +5,14 @@ import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 // import RichText from '@madebyconnor/rich-text-to-jsx'
 
-const contentful = require("contentful");
-// const client = contentful.createClient({
-//   // This is the space ID. A space is like a project folder in Contentful terms
-//   space: "rjamtt70s7tx",
-//   // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-//   accessToken: "huCscS5fIHtLPtgWsQhx_051Gq3U3gZr_C0NM-sFZwc"
-// });
-// // This API call will request an entry with the specified ID from the space defined at the top, using a space-specific access token.
-// window.client = client
-
-class Content extends PureComponent {
+class Content_ extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       hasError: false,
-      content: {},
-      ready: false,
+      content: this.props.content,
+      ready: true
     };
   }
 
@@ -36,42 +26,6 @@ class Content extends PureComponent {
 
     const { self, entry } = this.props;
 
-    const client = contentful.createClient({
-      // This is the space ID. A space is like a project folder in Contentful terms
-      space: "rjamtt70s7tx",
-      // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-      accessToken: "huCscS5fIHtLPtgWsQhx_051Gq3U3gZr_C0NM-sFZwc",
-    });
-    // This API call will request an entry with the specified ID from the space defined at the top, using a space-specific access token.
-    window.client = client;
-
-    await client
-
-      .getEntry(this.props.entry)
-
-      .then((entry_) => {
-        // let assets = entry_.getAssets()
-
-        console.log(entry_);
-
-        this.setState({
-          // assets: assets,
-          ready: true,
-          content: entry_.fields.content,
-        });
-
-        self.setState({
-          ready: true,
-          data_: entry_.fields,
-          // page: 
-          data: {
-            title: entry_.fields.title,
-            headline: entry_.fields.headline,
-            image: entry_.fields.media[0].fields.file.url,
-          },
-        });
-      })
-      .catch((err) => console.log(err));
   };
 
   componentWillReceiveProps = (nextProps) => {
@@ -129,15 +83,15 @@ class Content extends PureComponent {
   }
 }
 
-Content.propTypes = {
-  // bla: PropTypes.string,
-};
+// Content.propTypes = {
+//   // bla: PropTypes.string,
+// };
 
-Content.defaultProps = {
-  // bla: 'test',
-};
+// Content.defaultProps = {
+//   // bla: 'test',
+// };
 
-export default Content;
+export default Content_;
 
 const CustomComponent = ({ file, title, description }) => (
   <>

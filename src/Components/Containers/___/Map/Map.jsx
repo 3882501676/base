@@ -5,6 +5,8 @@ import AppContext from '../../../../Util/Context/context.js'
 
 import { Mapp } from './Elements/Map/index.js'
 import { Icon } from '@blueprintjs/core'
+import { Spinner } from '@blueprintjs/core'
+import { Loading } from '../../../Elements/index.js'
 
 class Map extends PureComponent { 
   constructor(props) {
@@ -12,6 +14,7 @@ class Map extends PureComponent {
 
     this.state = {
       hasError: false,
+      ready: false
     };
   }
 
@@ -21,6 +24,12 @@ class Map extends PureComponent {
 
   componentDidMount = () => {
     console.log('Map mounted');
+
+    setTimeout(() => {
+      this.setState({
+        ready: true
+      })
+    },1000)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -50,6 +59,14 @@ class Map extends PureComponent {
       return <h1>Something went wrong.</h1>;
     }
     return (
+
+      <>
+    
+
+     {!this.state.ready && <Loading /> }
+     
+      { this.state.ready &&
+
       <div 
       
       style={{
@@ -75,6 +92,10 @@ class Map extends PureComponent {
         <Toolbar self={this} />
 
       </div>
+      }
+
+      </>
+      
     );
   }
 }
@@ -102,13 +123,14 @@ const AddMapItem = ({ self }) => (
 
     <div 
 
-    onClick={ () => {
+    onClick={ async () => {
 
-        alert()
+        
+        await self.context.actions.set.layout.drawers.toggle({ self_: self.context.self, drawer: 0 })
 
     }}
 
-    className="flex bg-white br2 pa3 shadow-1">
+    className="flex bg-white br2 pa3 shadow-1 pointer ">
 
 
         <Icon 

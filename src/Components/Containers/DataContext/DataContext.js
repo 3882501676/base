@@ -7,12 +7,20 @@ import * as device from "react-device-detect";
 import history from '../../../Util/history.js'
 
 import { one, two, three, four, five } from './Actions'
+import { a, a_, a__, b, c } from '../___/Drawers/D/Elements/index.js'
 
-import { set_active_nav, update_state_from_child } from './Actions'
+// const { a} = a
+
+import { set_active_nav, update_state_from_child, toggle_drawer } from './Actions'
+
+
 
 window.device = device
 
-//import { Test } from './DataContext.styles';
+
+const drawer_components = [
+  a,a_,a__,b,b,b,c,c,c
+]
 
 class DataContext extends PureComponent { 
   constructor(props) {
@@ -28,9 +36,76 @@ class DataContext extends PureComponent {
 
       child_wrapper: {},
 
-      active_menu: 0
+      active_menu: 0,
 
-    
+      drawers: {
+
+          a: false,
+          a_: false,
+          a__: false,
+
+          b: false,
+          b_: false,
+          b__: false,
+
+          c: false,
+          c_: false,
+          c__: false
+  
+      },
+
+      d: [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+
+      // components: components({ self: this }),
+
+      // _d_components: {
+
+      //   a: components({ self: this })[0],
+      //   a_: components({ self: this })[1],
+      //   a__: components({ self: this })[2],
+
+      //   b: components({ self: this })[3],
+      //   b_: components({ self: this })[4],
+      //   b__: components({ self: this })[5]
+
+      // },
+
+      d_components: {
+
+        a: drawer_components[0],
+        a_: drawer_components[1],
+        a__: drawer_components[2],
+
+        b: drawer_components[3],
+        b_: drawer_components[4],
+        b__: drawer_components[5],
+
+        c: drawer_components[6],
+        c_: drawer_components[7],
+        c__: drawer_components[8]
+
+      },
+
+      d1: false,
+      d2: false,
+      d3: false,
+      d4: false,
+      d5: false,
+      d6: false,
+
+      pages: []
+
+
     }
 
   }
@@ -66,7 +141,7 @@ class DataContext extends PureComponent {
     }
 
     const { state } = this
-    const { a, b, c } = this.state
+    const { a, b, c, components, d_components } = this.state
 
     return (
       
@@ -92,7 +167,9 @@ class DataContext extends PureComponent {
                     active: set_active_nav
                   },
                   footer: '',
-                  drawer: '',
+                  drawers: {
+                    toggle:  toggle_drawer
+                  },
                   theme: ''
                 },
                 something: '',
@@ -108,6 +185,10 @@ class DataContext extends PureComponent {
               c
 
             },
+
+            components,
+
+            d_components,
 
             device: { isMobile, deviceDetect },
             history: history,
