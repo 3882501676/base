@@ -41,7 +41,8 @@ class Content extends PureComponent {
       space: "rjamtt70s7tx",
       // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
       accessToken: "huCscS5fIHtLPtgWsQhx_051Gq3U3gZr_C0NM-sFZwc",
-    });
+    })
+
     // This API call will request an entry with the specified ID from the space defined at the top, using a space-specific access token.
     window.client = client;
 
@@ -49,6 +50,7 @@ class Content extends PureComponent {
 
       .getEntry(this.props.entry)
 
+      
       .then((entry_) => {
         // let assets = entry_.getAssets()
 

@@ -67,7 +67,7 @@ const D = () => (
             </Drawer>
           </Drawer>
 
-{ props.state.d4 && 
+{/* { props.state.d4 &&  */}
           <Drawer
             width={"100vw"}
             height={"26vh"}
@@ -90,9 +90,10 @@ const D = () => (
           >
             <props.d_components.b props={props} />
           </Drawer>
-}
+{/* } */}
 
-         { props.state.d5 && <Drawer
+         {/* { props.state.d5 &&  */}
+         <Drawer
             width={"100vw"}
             height={"15vh"}
             closable={false}
@@ -114,7 +115,7 @@ const D = () => (
           >
             <props.d_components.c props={props} />
           </Drawer>
-         }
+         {/* } */}
         </>
       )
     )}

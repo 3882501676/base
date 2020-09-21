@@ -2,28 +2,16 @@ const contentful = require('contentful-management')
 
 
 
-const create = (e) => {
+const create = (op) => {
 
-
-  e.preventDefault()
-
-      console.log(e)
-      
-      e.preventDefault()
-
-      const data = new FormData(e.target);
-
-      console.log('formdata ---< ',data)
 
     return new Promise( async resolve => {
 
-      // const { e } = op
+      const { values } = op
 
-      
-
-      // const client = contentful.createClient({
-      //   accessToken: '<content_management_api_key>'
-      // })
+      const client = contentful.createClient({
+        accessToken: 'CFPAT-8pSIZCPz2_ltPfxdil7z0suZ_TDPM5NKiCSop6x_s2Y'
+      })
 
       // const client = contentful.createClient({
       //   // This is the space ID. A space is like a project folder in Contentful terms
@@ -32,21 +20,38 @@ const create = (e) => {
       //   accessToken: "huCscS5fIHtLPtgWsQhx_051Gq3U3gZr_C0NM-sFZwc",
       // })
       
+      let fields_ = {}
+
+      const assignValues = (data) => {
+        
+        fields_[data.label] = {
+          'en-US': data.value
+        }
+
+        return fields_
+      }
+
+      let fields = values.map( a => assignValues(a) )
+
+      console.log('Fields_ ---> ',fields_)
       
-      // client.getSpace('rjamtt70s7tx')
-      // // .then((space) => space.getEnvironment('<environment_id>'))
-      // .then((environment) => environment.createEntry('point', {
-      //   fields: {
-      //     title: {
-      //       'en-US': 'Entry title'
-      //     }
-      //   }
-      // }))
-      // .then((entry) => console.log(entry))
-      // .catch(console.error)
+      client.getSpace('rjamtt70s7tx')
+      // .then((space) => space.getEnvironment('<environment_id>'))
+      .then((environment) => environment.createEntry('point', {
+        fields: fields_
+      }))
+      .then((entry) => { 
+        
+        console.log(entry)
+
+        resolve(entry)
+
+      }
+      )
+      .catch(console.error)
 
 
-        resolve({})
+
 
     })
 
