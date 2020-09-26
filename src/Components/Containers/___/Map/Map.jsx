@@ -8,13 +8,16 @@ import { Icon } from '@blueprintjs/core'
 import { Spinner } from '@blueprintjs/core'
 import { Loading } from '../../../Elements/index.js'
 
+import { getpoints } from './Methods/index.js'
+
 class Map extends PureComponent { 
   constructor(props) {
     super(props);
 
     this.state = {
       hasError: false,
-      ready: false
+      ready: false,
+      points: []
     };
   }
 
@@ -22,8 +25,10 @@ class Map extends PureComponent {
     console.log('Map will mount');
   }
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     console.log('Map mounted');
+
+    await getpoints({ self: this })
 
     setTimeout(() => {
       this.setState({
@@ -52,7 +57,7 @@ class Map extends PureComponent {
 
     const { index, self } = this.props 
     const { state } = self 
-    const { active } = state 
+    const { active, points } = state 
 
 
     if (this.state.hasError) {
@@ -85,7 +90,7 @@ class Map extends PureComponent {
       
       >
 
-        <Mapp />
+        <Mapp points={points} self={this} />
         
         <AddMapItem self={this} />
 

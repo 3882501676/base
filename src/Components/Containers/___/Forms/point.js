@@ -5,6 +5,9 @@ import { geolocate } from '../../../../Util/geo/index.js'
 
 import create from "./Actions/point/create.js";
 
+import { Locationsearch } from './Elements'
+import { Spinner, Icon } from '@blueprintjs/core'
+
 // const { create, update, delete_ } = point
 const rows = [
     {
@@ -25,12 +28,12 @@ const rows = [
     {
       label: "lat",
       type: "text",
-      default: JSON.parse(localStorage.getItem('geolocate')) && JSON.parse(localStorage.getItem('geolocate')).lat,
+      // default: JSON.parse(localStorage.getItem('geolocate')) && JSON.parse(localStorage.getItem('geolocate')).lat,
     },
     {
       label: "lon",
       type: "text",
-      default: JSON.parse(localStorage.getItem('geolocate')) && JSON.parse(localStorage.getItem('geolocate')).long,
+      // default: JSON.parse(localStorage.getItem('geolocate')) && JSON.parse(localStorage.getItem('geolocate')).long,
     },
 
     {
@@ -51,6 +54,10 @@ class Point extends React.PureComponent {
     
     this.state = {
         // refs: refs_
+        formbusy: false,
+        geo: { lat: 0, long: 0 },
+        lat: 0,
+        long: 0
     };
 
     // this.assignRef = this.assignRef.bind(
@@ -93,6 +100,11 @@ class Point extends React.PureComponent {
     // console.log(e)
     // console.log(this)
     // console.log(this.refs_)
+
+    this.setState({
+      formbusy: true
+    })
+
     let values = this.refs_.map( ( ref, index ) => { 
         
         return {
@@ -103,13 +115,31 @@ class Point extends React.PureComponent {
     
     })
 
+    values.map( ( value, index ) => {
+
+      if(value.label === 'lon') { 
+        value.value = JSON.stringify(this.state.long)
+      }
+      if(value.label === 'lat') { 
+        value.value = JSON.stringify(this.state.lat)
+      }
+    
+    })
+
     console.log('Form values ---> ', values)
+
+
 
     await create({ values, self: this })
 
     .then( async res => {
 
         console.log('Create Point Res ---> ', res )
+        
+        this.setState({
+          formbusy: false
+        })
+
     })
 
   }
@@ -123,7 +153,55 @@ class Point extends React.PureComponent {
   }
 
   render() {
-    
+
+    // let a = rows.map( row => if( row.label === 'lat' ){ row.default = this.state.geo.lat } )
+    // let b = rows.map( row => if( row.label === 'long' ) {  row.default = this.state.geo.long })
+
+    // rows.map((row,index) => {
+    //     if(row.label === 'lat'){
+    //       row.default = this.state.geo.lat
+    //     }
+    //     if(row.label === 'long'){
+    //       row.default = this.state.geo.long
+    //     }
+    // })
+
+    // const rows = [
+    //   {
+    //     label: "title",
+    //     type: "text",
+    //     default: "",
+    //   },
+    //   {
+    //     label: "description",
+    //     type: "text",
+    //     default: "",
+    //   },
+    //   {
+    //       label: "address",
+    //       type: "text",
+    //       default: "",
+    //     },
+    //   {
+    //     label: "lat",
+    //     type: "text",
+    //     default: this.state.geo.lat
+    //     // default: JSON.parse(localStorage.getItem('geolocate')) && JSON.parse(localStorage.getItem('geolocate')).lat,
+    //   },
+    //   {
+    //     label: "lon",
+    //     type: "text",
+    //     default: this.state.geo.long
+    //     // default: JSON.parse(localStorage.getItem('geolocate')) && JSON.parse(localStorage.getItem('geolocate')).long,
+    //   },
+  
+    //   {
+    //     label: "urls",
+    //     type: "textarea",
+    //     default: "",
+    //   },
+    // ];
+
 
     const form = {
       id: "form-1",
@@ -135,12 +213,21 @@ class Point extends React.PureComponent {
     };
 
     return (
+
       <Wrapper form={form}>
 
         
+        <div className=" flex flex-column ph3 pv2 br1 bg-white bn f5 fw5 black" >
+
+        <div className=" flex flex-column"><label className=" flex f6 fw4 black-50 ttc mb2 ">Point Address</label></div>
+
+        <Locationsearch self={this} />
+
+        </div>
 
         {rows.map((row, index) => (
           <Row row={row}>
+
             <Label row={row} />
 
 
@@ -151,14 +238,21 @@ class Point extends React.PureComponent {
             index={index}
             row={row}
             self={this}
+            lat={this.state.lat}
+            long={this.state.long}
+          
             
              />
+
           </Row>
         ))}
 
         <Row>
-          <Submit submit={this.submit} form={form} />
+        
+          <Submit submit={this.submit} form={form} self={this} />
+        
         </Row>
+
       </Wrapper>
     );
   }
@@ -190,12 +284,12 @@ const Label = (props) => (
   </div>
 );
 
-const Input = (props) => (
+const Input = ({ row, self, index, lat, long }) => (
   <>
     <input
-        ref={ props.self.refs_[props.index] }
-        defaultValue={props.row.default}
-        type={props.row.type}
+        ref={ self.refs_[index] }
+        defaultValue={ row.label === "lat" ? lat : row.label === 'lon' ? long : row.default}
+        type={row.type}
         className={
         "  flex flex-column ph3 pv3 br1 bg-white f5 fw5 black ba b--black-05 "
       }
@@ -203,13 +297,14 @@ const Input = (props) => (
   </>
 );
 
-const Submit = (props) => (
+const Submit = ({ submit, form, self }) => (
   <button
     // type={"submit"}
-    onClick={ props.submit }
+    onClick={ submit }
 
     className="  dim pointer bn flex f5 fw6 black- white bg-blue br1 ph3 pv3 tc items-center justify-center ttu tracked  "
   >
-    {props.form.submit_label}
+    { !self.state.formbusy && form.submit_label}
+    { self.state.formbusy && <Spinner size={30} value={null} /> }
   </button>
 );

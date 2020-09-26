@@ -145,9 +145,11 @@ class Mapp extends React.Component {
 
     render() {
 
-        const { allproviders } = this.props
+        const { points } = this.props
 
-        const mapitems = allproviders && allproviders.length ? allproviders : []
+        const mapitems = points && points.length ? points : []
+
+        console.log('POints ===:> ', mapitems )
 
         // console.log('Viewport Mapp ', this.state.viewport)
 

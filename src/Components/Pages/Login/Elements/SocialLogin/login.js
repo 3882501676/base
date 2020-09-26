@@ -18,16 +18,10 @@ class SocialButton extends React.Component {
     render() {
         const { children, triggerLogin, triggerLogout, ...props } = this.props
         return (
-    //         <SocialLogin
-    //   provider='google'
-    //   appId='YOUR_APP_ID'
-    //   callback={this.handleSocialLogin}
-    // >
             <button onClick={triggerLogin} {...this.props}>
               { this.props.children }
             </button>
-            // </SocialLogin>
-        );
+        )
     }
 }
 
