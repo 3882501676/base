@@ -16,7 +16,7 @@ const reversegeocode = async __ => {
                 return res.json()
             })
             .then(res => {
-                // // console.log('reverse geocode res', res)
+                console.log('reverse geocode res', res)
 
                 // // console.log('[[ Fn.reverseGeocodeCity ]]', JSON.stringify(res.Response && res.Response.View && res.Response.View[0] && res.Response.View[0].Result[0] && res.Response.View[0].Result[0].Location && res.Response.View[0].Result[0].Location.Address))
 

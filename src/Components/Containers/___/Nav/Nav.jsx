@@ -12,6 +12,7 @@ class Nav extends PureComponent {
 
     this.state = {
       hasError: false,
+      placeholder: ""
     };
   }
 
@@ -101,7 +102,7 @@ class Nav extends PureComponent {
 
           </div> */}
 
-          <Spacer />
+          <Spacer self={this} />
 
           <div
             onMouseEnter={() => {
@@ -125,17 +126,24 @@ class Nav extends PureComponent {
             />
           </div>
 
-          <div className="pointer flex flex-row items-center justify-center ph3 pv4 bl b--black-05">
+          <div
+            style={{
+
+            }}
+            className="w-20 pointer flex flex-row items-center justify-center ph3 pv4 bl b--black-05">
             <button
               style={{
                 padding: "1.6vh 7vh",
                 fontWeight: "500",
                 boxShadow: "0px 2px 10px 0px #2f89fa2e",
               }}
+              onClick={() => {
+                this.context.history.push('/login')
+              }}
               className=" dim pointer hover-child-slide-right flex flex-row items-center justify-center bn ph2 pv2 br2  bg-blue "
             >
               <span className="flex ttu tracked  f5 fw7 white">
-                {"Register"}
+                {"Sign in"}
               </span>
 
               <div
@@ -199,4 +207,47 @@ export default Nav;
 
 Nav.contextType = AppContext;
 
-const Spacer = () => <div id="spacer" className="flex flex-auto w-100"></div>;
+const Spacer = ({ self }) => <div
+
+  style={{
+    height: '10vh'
+  }}
+
+  id="spacer"
+
+  className=" flex flex-auto w-70 pv3 mh4 relative "
+
+>
+
+  <input
+    type="text"
+    id="search"
+    onClick={() => {
+      self.setState({
+        placeholder_text: "Search for a keyword or location ... "
+      })
+    }}
+    onBlur={() => {
+      self.setState({
+        placeholder_text: ""
+      })
+    }}
+    className="  ttc flex pr3 pl5 h-100 br2 ba b--black-05 w-100 f5 fw5 black-40  "
+    placeholder={self.state.placeholder_text}
+  />
+  <div className=" absolute top-0 right-0 "
+    style={{
+      top: '4vh',
+      left: '1vw',
+      color: '#e0e0e0',
+      width: '1vw'
+    }}
+  >
+    <Icon icon={'search'} style={{
+      position: 'relative'
+    }}
+    />
+
+  </div>
+
+</div>;

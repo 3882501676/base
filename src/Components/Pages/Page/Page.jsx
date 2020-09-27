@@ -7,6 +7,7 @@ import { Loading } from '../../Elements'
 import { Spinner } from '@blueprintjs/core'
 
 import Content_ from '../../Containers/___/Content/Content_.jsx'
+import Forms from '../../Containers/___/Forms/index.js'
 
 //import { Test } from './Page.styles';
 
@@ -56,13 +57,25 @@ class Page extends PureComponent {
 
       console.log('Page : ----> ', page)
 
+      // ready && console.log('Content : Data ===> ', page )
+
+
+
 
 
       if (page && page.content) {
 
+        const form = page && page.data.form
+
+        form && console.log('Forms ---> ', Forms)
+
+        form && console.log('Forms : form ---> ', Forms[form])
+
+
+
         setTimeout(() => {
 
-          this.setState({ page: page, ready: true })
+          this.setState({ page: page, ready: true, form: Forms[form] })
 
         }, 300)
 
@@ -133,11 +146,29 @@ class Page extends PureComponent {
   }
 
   render() {
+
+    const { ready, page, form } = this.state
+    const { data } = ready && page
+    const { template } = ready && data
+    const Form_ = form
+
+    // ready && console.log('Content : Data ===> ', page )
+
+    // const form = ready && page && page.data.form
+
+    // form && console.log('Forms ---> ', Forms )
+
+    // form && console.log('Forms : form ---> ' , Forms[form])
+
+    // const {} = thi
+
+
     if (this.state.hasError) {
       return <h1>Something went wrong.</h1>;
     }
+
     return (
-      <Wrapper>
+      <Wrapper page={page} template={null} self={this} Form={null} >
 
         {!this.state.ready && <Loading />}
 
@@ -145,23 +176,25 @@ class Page extends PureComponent {
           <>
             <Hero text={this.state.page.title} />
 
-            <Section columns={1}>
-              <Headline text={this.state.page.headline} />
-            </Section>
+            <Wrapper page={page} template={template} self={this} Form={Form_} >
 
-            <Section columns={3}>
-              <Content_
+              <Section columns={1}>
+                <Headline text={this.state.page.headline} />
+              </Section>
 
-                self={this}
-                entry={this.state.page.id}
-                page={this.state.page}
-                content={this.state.page.content}
+              <Section columns={ template === "sidebar" || template === "50-50" ? 2 : 3 }>
+                <Content_
 
-              />
-            </Section>
+                  self={this}
+                  entry={this.state.page.id}
+                  page={this.state.page}
+                  content={this.state.page.content}
 
-            <div className="flex pb5">{""}</div>
+                />
+              </Section>
 
+
+            </Wrapper>
           </>
         }
       </Wrapper>
@@ -183,11 +216,42 @@ Page.contextType = AppContext
 
 
 
-const Wrapper = ({ children }) => (
-  <div className="AboutWrapper flex flex-column w-100 h-100 overflow-auto ">
-    {children}
+
+const Wrapper = ({ page, template, self, Form, children }) => (
+  <div className=" flex flex-row ">
+    <div className={template === "sidebar" ? " AboutWrapper flex flex-column w-100 h-100 overflow-auto w-60-ns w-100 " : template === "50-50" ? " AboutWrapper flex flex-column w-100 h-100 overflow-auto w-50-ns w-100" : " AboutWrapper flex flex-column w-100 h-100 overflow-auto "} >
+
+      {children}
+
+
+
+    </div>
+    <>
+      {
+        template === "sidebar" || template === "50-50" && <Sidebar self={self} title={""} template={template} Form={Form} />
+      }
+    </>
   </div>
 );
+
+
+const Sidebar = ({ self, title, Form, template }) => (
+  <section id="Sidebar" className={template === "50-50" ? " flex flex-column w-50-ns w-100 bl b--black-05 " : " flex flex-column w-40-ns w-100 bl b--black-05 "}>
+
+    {
+      title && <h1>{title}</h1>
+    }
+
+    <div className="flex pb5 w-100 ">
+
+      <Form />
+
+    </div>
+
+
+  </section>
+
+)
 
 const Headline = ({ text }) => (
   <div className="flex f2 fw3 black sans-serif ">
@@ -200,7 +264,7 @@ const Hero = ({ text }) => (
     id="hero"
     className="relative flex items-center justify-start w-100 bg-center bg-cover ph6 bg-white bb b--black-05 "
     style={{
-      marginTop: "10vh",
+      // marginTop: "10vh",
       // backgroundColor: '#c4ffef'
       height: "30vh",
       // background: 'url('+ this.state.data.image +')'
@@ -209,17 +273,17 @@ const Hero = ({ text }) => (
     <h1 className="  f3 fw6 black ttu ">{text}</h1>
   </div>
 );
-const Section = (props) => (
+const Section = ({ children, columns }) => (
   <section
     style={{
       // marginTop: "40vh",
       height: "auto",
       display: 'flow-root',
-      columns: props.columns
+      columns: columns
     }}
     id="content"
     className="flex flex-column ph6 pt5"
   >
-    {props.children}
+    {children}
   </section>
 )

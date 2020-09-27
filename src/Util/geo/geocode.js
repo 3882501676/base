@@ -4,11 +4,12 @@ const geocode = async __ => {
     const { address } = __
     return new Promise(async resolve => {
         let url =
-            "https://geocode.search.hereapi.com/v1/geocode?apiKey=PWoXzPei0zNEXZc_xPgy17_EOGebxidIxJCDbeOPX-M&q=" +
-            
-address
-            
-            + "&app_id=ZZN2MPuexLyuz3VR0KDD&app_code=TnEsVJR8k3zxGMiAkbP_EQ"
+            "https://geocode.search.hereapi.com/v1/geocode?q=" +
+
+            address
+
+            + "&apiKey=wVNEAAsjbzDSGkRqAeaYSPCakWD_NNWPVSaVDHgTT50"
+        // + "&app_id=ZZN2MPuexLyuz3VR0KDD&app_code=TnEsVJR8k3zxGMiAkbP_EQ"
         fetch(url, (e, r) => {
             return r
         })

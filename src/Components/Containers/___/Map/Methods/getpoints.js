@@ -38,13 +38,14 @@ const getpoints = async (op) => {
                 console.log('Contentful : Points : Raw Entries ---> ', entries )
                 // console.log('Contentful : Pages ---> ', entries.items.map( a => a.fields ) );
 
-                let points = entries.items.map(a => this.reduce(a))
+                let points = entries.items.map(a => reduce(a))
 
                 console.log('Contentful : Points : Reduced Entries ---> ', points )
 
                 self.setState({
 
-                    points: points
+                    points: points,
+                    ready: true
 
                 })
 

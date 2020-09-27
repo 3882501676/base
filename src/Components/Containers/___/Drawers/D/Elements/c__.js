@@ -9,7 +9,6 @@ import {
   UilSwimmer,
   UilFolderLock,
 } from "@iconscout/react-unicons";
-import { Popover } from 'antd'
 
 const items = [
   {
@@ -55,30 +54,11 @@ const Menu = ({ props }) => {
       icon: "ring",
     },
   ]
-
-  const submenu = [
-    {
-      label: 'One',
-      link: '/one',
-      icon: 'info-sign'
-    },
-    {
-      label: 'One',
-      link: '/one',
-      icon: 'info-sign'
-    },
-  ]
   const reduce = (a) => {
-    return { label: a.title, link: "/page/" + a.title.toLowerCase(), icon: a.icon, submenu }
+    return { label: a.title, link: "/page/" + a.title.toLowerCase(), icon: a.icon }
   }
   const pages_menu = props.state.pages.map( a => reduce(a) )
 
-  // const add_sub_menu = (a) => {
-  //   return a.
-  // }
-
-  // const pages_menu = pages_menu_.map( a => add_sub_menu(a) )
-// 
   pages_menu.unshift({
     label: "Home",
     link: "/",
@@ -94,21 +74,21 @@ const Menu = ({ props }) => {
       link: "/",
       icon: "geosearch",
     },
-    // {
-    //   label: "Two",
-    //   link: "/",
-    //   icon: "intersection",
-    // },
-    // {
-    //   label: "Three",
-    //   link: "/",
-    //   icon: "predictive-analysis",
-    // },
-    // {
-    //   label: "Four",
-    //   link: "/",
-    //   icon: "social-media",
-    // },
+    {
+      label: "Two",
+      link: "/",
+      icon: "intersection",
+    },
+    {
+      label: "Three",
+      link: "/",
+      icon: "predictive-analysis",
+    },
+    {
+      label: "Four",
+      link: "/",
+      icon: "social-media",
+    },
   ];
 
   const menus = [pages_menu, cms_menu, map_menu]
@@ -122,8 +102,6 @@ const Menu = ({ props }) => {
   return (
     <div className="flex flex-row w-100 items-center justify-start  h-100">
       {active_menu.map((item, index) => (
-      
-       
         <Link
           to={item.link}
           key={index}
@@ -135,12 +113,8 @@ const Menu = ({ props }) => {
               d5: false
             })
           }}
-          onHover={() => {
-            props.self.context.self.setState({ d6: true })
-          }}
           className="fadeInUp link pointer flex flex-row items-center justify-start ph4 pv3- h-100 "
         >
-        
           <Icon
             icon={item.icon}
             iconSize={16}
@@ -153,9 +127,7 @@ const Menu = ({ props }) => {
           <span className=" dim sans-serif f5 fw6 white -black-30 ml3">
             {item.label}
           </span>
-          
         </Link>
-        
       ))}
     </div>
   );

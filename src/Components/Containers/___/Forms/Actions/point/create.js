@@ -40,6 +40,8 @@ const create = (op) => {
       .then((environment) => environment.createEntry('point', {
         fields: fields_
       }))
+
+      .then((entry) => entry.publish())
       .then((entry) => { 
         
         console.log(entry)

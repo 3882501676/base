@@ -149,7 +149,7 @@ class Mapp extends React.Component {
 
         const mapitems = points && points.length ? points : []
 
-        console.log('POints ===:> ', mapitems )
+        console.log('POints ===:> ', points )
 
         // console.log('Viewport Mapp ', this.state.viewport)
 
@@ -225,7 +225,7 @@ class Mapp extends React.Component {
                         {/* console.log('Point --> ', point), */}
 
                 <Cluster id="cluster" radius={20} extent={512} nodeSize={128} component={ClusterMarker}>
-                    {mapitems.filter(a => a.properties.service === this.state.filter).map(point => (
+                    {points.filter(a => a).map(point => (
 
 
 
@@ -233,9 +233,9 @@ class Mapp extends React.Component {
                         <Marker
                             // onCLick={() => this.context.actions.selectProvider(point)}
                             // onClick={()=>{ alert()}}
-                            key={point.properties.title}
-                            latitude={point.geometry.coordinates[1]}
-                            longitude={point.geometry.coordinates[0]}
+                            key={point.title}
+                            latitude={point.lat}
+                            longitude={point.lon}
                         >
 
 
@@ -245,7 +245,7 @@ class Mapp extends React.Component {
                             trigger={'hover'} placement={'right'} content={
                                 <div className="flex pa3 bg-white black f5 fw6 relative">
 
-                                    {point.properties.title}
+                                    {/* {point.properties.title} */}
 
                                 </div>
                             } title={false}>
@@ -263,8 +263,8 @@ class Mapp extends React.Component {
                                 </div>
                                 <div
                                 // onClick={()=>{ alert()}}
-                                    onClick={() => this.context.actions.selectprovider({ type: 'provider', provider: { fields: point.properties } })}
-                                    className={("service-" + point.properties.service) + (" z-9 relative hover-scale-up flex flex-column br3- round ba-bw1-b--white bg-cover bg-center bs-f ")}
+                                    // onClick={() => this.context.actions.selectprovider({ type: 'provider', provider: { fields: point.properties } })}
+                                    className={("service-" + point.title) + (" z-9 relative hover-scale-up flex flex-column br3- round ba-bw1-b--white bg-cover bg-center bs-f ")}
                                     style={{
 
                                         height: '70px',
@@ -273,7 +273,7 @@ class Mapp extends React.Component {
 
                                     }}
                                 >
-                                    {/* <div className="f6 fw5 black ph2 pv1 br1-  round bs-e text-overflow absolute bg-white ">{point.properties.title}</div> */}
+                                    <div className="f6 fw5 black ph2 pv1 br1-  round bs-e text-overflow absolute bg-white ">{point.title}</div>
 
 
                                     <Image 

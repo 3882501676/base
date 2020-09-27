@@ -114,7 +114,35 @@ const D = () => (
             }}
           >
             <props.d_components.c props={props} />
+
+           
           </Drawer>
+          <Drawer
+            width={"100vw"}
+            height={"30vh"}
+            closable={false}
+            onClose={() => {
+              props.self.setState({
+                d5: !props.state.d5,
+              });
+            }}
+            placement={"top"}
+            // mask={'false'}
+            visible={props.state.d6}
+            style={{
+              // height: '100vh',
+              top: "25vh",
+              zIndex: 1
+            }}
+            bodyStyle={{
+              // background: "blue",
+            }}
+          >
+            <props.d_components.c_ props={props} />
+
+            
+          </Drawer>
+
          {/* } */}
         </>
       )

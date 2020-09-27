@@ -17,6 +17,8 @@ class Login extends PureComponent {
   }
   handleSocialLogin = (user) => {
     console.log(user)
+
+    localStorage.setItem('g_user', JSON.stringify( user ) )
     this.context.history.push('/home')
 
   }
@@ -61,9 +63,10 @@ class Login extends PureComponent {
 
       <div 
       style={{
-        height: '90vh',
-        width: '100vw',
-        top: '10vh'
+        // height: '90vh',
+        width: '100%',
+        height: '90vh'
+        // top: '10vh'
       }}
       className="LoginWrapper flex z-99 w-100 h-100 bg-near-white relative items-center justify-center ">
       
@@ -72,7 +75,7 @@ class Login extends PureComponent {
             appId='499531090165-81gt3aobf1bualpsb41c0hfmvb050evr.apps.googleusercontent.com'
             onLoginSuccess={this.handleSocialLogin}
             onLoginFailure={this.handleSocialLoginFailure}
-            className="flex flex-row bn round pl2 pr3 pv2 items-center pointer dim grow"
+            className="flex flex-row bn round- bg-white br3 bs-h pl2 pr3 pv2 items-center pointer dim grow"
           >
           <div 
           style={{
@@ -81,9 +84,9 @@ class Login extends PureComponent {
             background: 'url(/icons/google.svg)'
           }}
           className=" bg-center bg-contain no-repeat"></div>
-            <span className="  flex f5 fw6 black pr4 pl3 sans-serif">
+            <span className="  flex f5 fw6 black-60 pr4 pl3 sans-serif">
             
-                Login with Google
+                Sign in with Google
               
             </span>
 

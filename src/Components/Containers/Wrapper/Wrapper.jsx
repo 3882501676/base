@@ -8,7 +8,7 @@ import { Route, Router, Switch } from "react-router-dom";
 import history from "../../../Util/history.js";
 import { Helmet } from './Elements/Helmet/index.js'
 import Pages from '../___/Content/Pages.jsx'
-import { Cms, Content, Dialogs, Drawers, D, Map, Nav, Offcanvas, Overlay } from '../___/index.js'
+import { Notification, Cms, Content, Dialogs, Drawers, D, Map, Nav, Offcanvas, Overlay } from '../___/index.js'
 
 // import mouseTrap from 'react-mousetrap';
 var Mousetrap = require('mousetrap');
@@ -135,6 +135,8 @@ class Wrapper extends PureComponent {
 
               <Nav />
 
+              <Notification self={this} />
+
               <Main>
 
               
@@ -204,7 +206,15 @@ const Children = (props) => (
   </div>
 )
 const Main = (props) => (
-  <section id="Main" className="site-drawer-render-in-current-wrapper">
+  <section 
+  
+  id="Main" 
+  style={{
+    height: '90vh',
+    width: '100vw',
+    top: '10vh'
+  }}
+  className="fixed site-drawer-render-in-current-wrapper overflow-auto">
 
     {props.children}
 

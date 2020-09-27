@@ -1,0 +1,6 @@
+.bg-cover {
+    background-size: cover !important;
+}
+.bg-center {
+    background-position: center !important;
+}

@@ -30,11 +30,11 @@ class Map extends PureComponent {
 
     await getpoints({ self: this })
 
-    setTimeout(() => {
-      this.setState({
-        ready: true
-      })
-    },1000)
+    // setTimeout(() => {
+    //   this.setState({
+    //     ready: true
+    //   })
+    // },1000)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -90,7 +90,7 @@ class Map extends PureComponent {
       
       >
 
-        <Mapp points={points} self={this} />
+        <Mapp points={this.state.points} self={this} />
         
         <AddMapItem self={this} />
 

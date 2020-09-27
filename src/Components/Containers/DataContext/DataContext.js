@@ -7,7 +7,7 @@ import * as device from "react-device-detect";
 import history from '../../../Util/history.js'
 
 import { one, two, three, four, five } from './Actions'
-import { a, a_, a__, b, c } from '../___/Drawers/D/Elements/index.js'
+import { a, a_, a__, b, c, c_, c__ } from '../___/Drawers/D/Elements/index.js'
 
 // const { a} = a
 
@@ -19,7 +19,7 @@ window.device = device
 
 
 const drawer_components = [
-  a,a_,a__,b,b,b,c,c,c
+  a,a_,a__,b,b,b,c,c_,c__
 ]
 
 class DataContext extends PureComponent { 
@@ -29,6 +29,13 @@ class DataContext extends PureComponent {
     this.state = {
     
       hasError: false,
+
+      notification: false,
+      notification_data: {
+        title: 'Notification',
+        content: 'This is a generic notification',
+        icon: 'info-sign'
+      },
     
       a: '',
       b: '',

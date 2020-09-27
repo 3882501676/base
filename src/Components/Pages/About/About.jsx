@@ -105,7 +105,7 @@ const Hero = ({ text }) => (
     id="hero"
     className="relative flex items-center justify-start w-100 bg-center bg-cover ph6 bg-white bb b--black-05 "
     style={{
-      marginTop: "10vh",
+      // marginTop: "10vh",
       // backgroundColor: '#c4ffef'
       height: "30vh",
       // background: 'url('+ this.state.data.image +')'
