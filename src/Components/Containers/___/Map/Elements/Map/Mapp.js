@@ -3,11 +3,15 @@ import { randomPoint } from '@turf/random';
 import MapGL, { Source, Layer, Image, Marker, GeolocateControl, NavigationControl, ScaleControl, Filter } from '@urbica/react-map-gl';
 import Geocoder from 'react-mapbox-gl-geocoder'
 import Cluster from '@urbica/react-map-gl-cluster';
-import { setimage } from './Actions'
+// import { setimage } from './Actions'
+
+import { setimage } from './Methods'
+
 import { Popover } from 'antd'
 import MarkerIcon from '../../../../../../Assets/icons/location-pin.svg'
 
 import { AppContext, config } from 'utils'
+import { geolocate } from '../../../../../../Util/geo/index.js'
 // import util from 'utils'
 
 import './style.css'
@@ -60,10 +64,12 @@ class Mapp extends React.Component {
 
         this.state = {
             viewport: {
-                latitude: props && props.location && props.location.lat || "",
-                longitude: props && props.location && props.location.lon || "",
+                
+                latitude: props && props.location && props.location.lat || 0,
+                longitude: props && props.location && props.location.lon || 0,
                 zoom: 20,
                 pitch: 40
+
             },
             service: 'therapy',
             filter: 'therapy',
@@ -76,18 +82,37 @@ class Mapp extends React.Component {
         this.onMapMove = this.onMapMove.bind(this)
 
         this.mapRef = React.createRef()
+        this.geolocateRef = React.createRef()
 
         // console.log('Mapp props ', this.props)
     }
 
 
-    setImage(point) {
+    setImage  = async(point) => {
 
-        const image = setimage({ self: this, item: { fields: point.properties } })
+        let data = await setimage({ self: this, point })
+        
+        console.log('setimage data ===> ',data)
 
+        return data
+
+        // .then( res => {
+
+        //     return res.json()
+
+        // })
+        
+        // .then( res => {
+            
+        //     console.log('setImage : res ===> ',res)
+            
+        //     return res
+
+        // })
+        
         // console.log('setImage : image --< ', image)
 
-        return image
+        // return image
 
     }
 
@@ -131,7 +156,30 @@ class Mapp extends React.Component {
 
     }
 
-    componentDidMount(){
+    componentWillMount = async() => {
+       
+    
+    }
+
+    componentDidMount = async() => {
+
+        await geolocate()
+        
+        .then( async geo => {
+
+                console.log('Geo res ===> ', geo )
+
+                let viewport = this.state.viewport
+
+                viewport.latitude = geo.lat
+                viewport.longitude = geo.long
+                viewport.zoom = 12
+
+                this.setState({
+                    viewport
+                })
+
+        })
 
         // this.mapRef.on('moveend', function (e) {
             
@@ -140,10 +188,13 @@ class Mapp extends React.Component {
         //     // marker.setLngLat(map.getCenter());
         // });
 
-        // alert()
+        // alert('map mounted')
+
+        console.log('this.mapRef ===> ', this.mapRef )
+
     }
 
-    render() {
+    render () {
 
         const { points } = this.props
 
@@ -165,6 +216,12 @@ class Mapp extends React.Component {
                 // mapStyle={'mapbox://styles/quantacom/ckd6na75l04fx1ipfl9chuy24'}
                 mapStyle={'mapbox://styles/quantacom/ckaybclcf07vz1io78r65qjmx'}
                 accessToken={MAPBOX_ACCESS_TOKEN}
+                onLoad={ () => {
+                    // alert('loaded')
+
+                    console.log('map this ===> ', this.geolocateRef )
+                    // geolocate.trigger();
+                }}
                 onViewportChange={viewport => { 
 
                     this.setState({ viewport })
@@ -225,9 +282,9 @@ class Mapp extends React.Component {
                         {/* console.log('Point --> ', point), */}
 
                 <Cluster id="cluster" radius={20} extent={512} nodeSize={128} component={ClusterMarker}>
+                   
+                        {/* console.log('Map point ===> ', point ), */}
                     {points.filter(a => a).map(point => (
-
-
 
 
                         <Marker
@@ -236,19 +293,21 @@ class Mapp extends React.Component {
                             key={point.title}
                             latitude={point.lat}
                             longitude={point.lon}
+                            className="marker"
                         >
-
-
 
                             <Popover 
                             //  onClick={()=>{ alert()}}
                             trigger={'hover'} placement={'right'} content={
-                                <div className="flex pa3 bg-white black f5 fw6 relative">
+                                <div className="flex flex-column pa3 bg-white black f5 fw6 relative">
 
                                     {/* {point.properties.title} */}
-
+                                    <div className="f5 fw5 black ph2-pv1 br1-  round- bs-e- text-overflow-  bg-=-white ">{point.title}</div>
+                                    {/* <div className="f6 fw5 black-60 ph2-pv1 br1-  round- bs-e- text-overflow-  bg-=-white ">{point.description}</div> */}
                                 </div>
-                            } title={false}>
+                            } 
+                            
+                            title={false}>
 
                                 {/* <div className=" absolute top-0 left-0">
                         
@@ -256,29 +315,34 @@ class Mapp extends React.Component {
                      
                         
                         </div> */}
-                                <div className=" absolute top-0 left-0">
+                                <div className=" marker-outer absolute top-0 left-0">
 
-                                    <div className="z-1 relative marker-ring-inner2 w4 h4 round bw1 ba b--white"></div>
+                                    <div className="z-1 relative marker-ring-inner-c trans-b w4-h4 round bw1 ba b--white"></div>
 
                                 </div>
+
+                                {/* <Image 
+                                     onClick={()=>{ alert()}}
+                                    id='my-image' image={ point.image } />
+                                     */}
                                 <div
                                 // onClick={()=>{ alert()}}
                                     // onClick={() => this.context.actions.selectprovider({ type: 'provider', provider: { fields: point.properties } })}
-                                    className={("service-" + point.title) + (" z-9 relative hover-scale-up flex flex-column br3- round ba-bw1-b--white bg-cover bg-center bs-f ")}
+                                    className={("service-" + point.title) + (" z-9 relative hover-scale-up flex flex-column br2 -round ba-bw1-b--white bg-cover bg-center bs-f ")}
                                     style={{
 
                                         height: '70px',
                                         width: '70px',
-                                        backgroundImage: 'url("' + this.setImage(point) + '")',
+                                        backgroundImage: 'url("' + point.image  + '")',
 
                                     }}
                                 >
-                                    <div className="f6 fw5 black ph2 pv1 br1-  round bs-e text-overflow absolute bg-white ">{point.title}</div>
-
+                                    
+                         
 
                                     <Image 
                                      onClick={()=>{ alert()}}
-                                    id='my-image' image={this.setImage(point)} />
+                                    id='my-image' image={ point.image } />
 
                                 </div>
                             </Popover>
@@ -291,7 +355,9 @@ class Mapp extends React.Component {
                 </Cluster>
 
                 <div className="fixed top-0 right-0">
-                    <GeolocateControl position='top-right' trackUserLocation={true} showUserLocation={true} />
+                    <GeolocateControl 
+                    ref={this.geolocateRef}
+                    position='top-right' trackUserLocation={true} showUserLocation={true} />
                 </div>
 
                 <div className="fixed top-0 right-0">

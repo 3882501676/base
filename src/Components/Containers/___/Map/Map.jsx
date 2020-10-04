@@ -90,7 +90,7 @@ class Map extends PureComponent {
       
       >
 
-        <Mapp points={this.state.points} self={this} />
+        <Mapp points={this.state.points} location={{ lat: 26, lon: 28 }} self={this} />
         
         <AddMapItem self={this} />
 

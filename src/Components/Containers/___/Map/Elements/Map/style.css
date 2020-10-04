@@ -123,8 +123,8 @@
     .marker-ring-inner2 {
         width: 110px;
         height: 110px;
-        left: -20px;
-        top: -20px;
+        left: -30px;
+        top: -30px;
         position: relative;
         border-width: 3px;
         /*box-shadow: 0px 8px 9px 0px #a9a9a9;
@@ -135,9 +135,21 @@
         -ms-transition:   all 0.2s ease-in-out  ;
         -o-transition:   all 0.2s ease-in-out  ;
 }
-.marker-ring-inner2:hover {
+/* .marker-ring-inner2:hover {
     width: 180px;
     height: 180px;
+    left: -55px;
+    top: -55px;
+    position: relative;
+    border-width: 3px;
+    box-shadow: 0px 8px 9px 0px #a9a9a9;
+    border-color: #00000026;
+} */
+
+/* .marker-outer:hover .marker-ring-inner2,  */
+.mapbox-gl-marker:hover > .marker-ring-inner2 {
+    width: 180px !important;
+    height: 180px !important;
     left: -55px;
     top: -55px;
     position: relative;
@@ -145,6 +157,42 @@
     /* box-shadow: 0px 8px 9px 0px #a9a9a9; */
     border-color: #00000026;
 }
+
+.marker-ring-inner-c {
+    width: 70px !important;
+    height: 70px !important;
+    left: 0px;
+    top: 0px;
+    position: relative;
+    border-width: 3px;
+    /* box-shadow: 0px 8px 9px 0px #a9a9a9; */
+    /* border-color: #00000026; */
+}
+.mapboxgl-marker:hover .marker-ring-inner-c {
+    height: 180px !important;
+    width: 180px !important;
+    left: -55px;
+    top: -55px;
+    position: relative;
+    border-width: 3px;
+    /* box-shadow: 0px 8px 9px 0px #a9a9a9; */
+    border-color: #00000026;
+}
+.mapbox-gl-marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    height: 70px;
+    width: 70px;
+    z-index: 99999;
+}
+.marker-outer {
+    height: 70px;
+    width: 70px;
+    top: 1px;
+}
+
 
 .marker-ring-inner3:hover {
     width: 180px;

@@ -1,5 +1,7 @@
+import setimage from '../Elements/Map/Methods/setimage.js'
 
 const contentful = require("contentful");
+
 
 const reduce = (entry) => {
 
@@ -33,7 +35,7 @@ const getpoints = async (op) => {
             })
 
 
-            .then((entries) => {
+            .then(async(entries) => {
 
                 console.log('Contentful : Points : Raw Entries ---> ', entries )
                 // console.log('Contentful : Pages ---> ', entries.items.map( a => a.fields ) );
@@ -42,12 +44,24 @@ const getpoints = async (op) => {
 
                 console.log('Contentful : Points : Reduced Entries ---> ', points )
 
+
+                for(let point of points){
+
+                   let image = await setimage({ self, point })
+
+                //    console.log('Point  image 2 ===> ', image && image.file )
+
+                   point.image = image.file
+                
+                }
+
                 self.setState({
 
                     points: points,
                     ready: true
 
                 })
+             
 
                 resolve(points)
 
