@@ -31,6 +31,7 @@ class DataContext extends PureComponent {
       hasError: false,
 
       notification: false,
+      
       notification_data: {
         title: 'Notification',
         content: 'This is a generic notification',
@@ -109,8 +110,15 @@ class DataContext extends PureComponent {
       d4: false,
       d5: false,
       d6: false,
+      d7: false,
 
-      pages: []
+      pages: [],
+
+      forms_point: false,
+      forms_a: false,
+
+
+
 
 
     }

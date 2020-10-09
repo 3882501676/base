@@ -19,7 +19,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // const { AppContext } = context
 // console.log('Util ---> ', util ) 
-console.log('Config ---> ', config ) 
+console.log('Config ---> ', config)
 
 const MAPBOX_ACCESS_TOKEN = config.api.keys.mapbox
 const mapAccess = {
@@ -64,7 +64,7 @@ class Mapp extends React.Component {
 
         this.state = {
             viewport: {
-                
+
                 latitude: props && props.location && props.location.lat || 0,
                 longitude: props && props.location && props.location.lon || 0,
                 zoom: 20,
@@ -88,11 +88,11 @@ class Mapp extends React.Component {
     }
 
 
-    setImage  = async(point) => {
+    setImage = async (point) => {
 
         let data = await setimage({ self: this, point })
-        
-        console.log('setimage data ===> ',data)
+
+        console.log('setimage data ===> ', data)
 
         return data
 
@@ -101,15 +101,15 @@ class Mapp extends React.Component {
         //     return res.json()
 
         // })
-        
+
         // .then( res => {
-            
+
         //     console.log('setImage : res ===> ',res)
-            
+
         //     return res
 
         // })
-        
+
         // console.log('setImage : image --< ', image)
 
         // return image
@@ -149,25 +149,25 @@ class Mapp extends React.Component {
         const viewport = this.state.viewport
         // 
         // let bounds = viewport.getBounds()
-        
+
         // console.log('bounds', bounds )
 
         // this.context.actions.filterProvidersByDistance({ viewport })
 
     }
 
-    componentWillMount = async() => {
-       
-    
+    componentWillMount = async () => {
+
+
     }
 
-    componentDidMount = async() => {
+    componentDidMount = async () => {
 
         await geolocate()
-        
-        .then( async geo => {
 
-                console.log('Geo res ===> ', geo )
+            .then(async geo => {
+
+                console.log('Geo res ===> ', geo)
 
                 let viewport = this.state.viewport
 
@@ -179,10 +179,10 @@ class Mapp extends React.Component {
                     viewport
                 })
 
-        })
+            })
 
         // this.mapRef.on('moveend', function (e) {
-            
+
         //     console.log(`Current Map Center: ${this.mapRef.getCenter()}`)
 
         //     // marker.setLngLat(map.getCenter());
@@ -190,17 +190,17 @@ class Mapp extends React.Component {
 
         // alert('map mounted')
 
-        console.log('this.mapRef ===> ', this.mapRef )
+        console.log('this.mapRef ===> ', this.mapRef)
 
     }
 
-    render () {
+    render() {
 
         const { points } = this.props
 
         const mapitems = points && points.length ? points : []
 
-        console.log('POints ===:> ', points )
+        console.log('POints ===:> ', points)
 
         // console.log('Viewport Mapp ', this.state.viewport)
 
@@ -216,17 +216,17 @@ class Mapp extends React.Component {
                 // mapStyle={'mapbox://styles/quantacom/ckd6na75l04fx1ipfl9chuy24'}
                 mapStyle={'mapbox://styles/quantacom/ckaybclcf07vz1io78r65qjmx'}
                 accessToken={MAPBOX_ACCESS_TOKEN}
-                onLoad={ () => {
+                onLoad={() => {
                     // alert('loaded')
 
-                    console.log('map this ===> ', this.geolocateRef )
+                    console.log('map this ===> ', this.geolocateRef)
                     // geolocate.trigger();
                 }}
-                onViewportChange={viewport => { 
+                onViewportChange={viewport => {
 
                     this.setState({ viewport })
-                
-                    console.log('viewport ---> ',viewport)
+
+                    console.log('viewport ---> ', viewport)
 
                     this.onMapMove({ viewport })
 
@@ -234,20 +234,20 @@ class Mapp extends React.Component {
 
                 onMove={
 
-                    (map) => { 
-                        
-                        console.log('map' , this.mapRef.current._map.getBounds() )
+                    (map) => {
+
+                        console.log('map', this.mapRef.current._map.getBounds())
 
                         // const bounds = map.getBounds()
-                        
+
                         // console.log('bounds', bounds )
-                        
-                        }
+
+                    }
 
                 }
                 className="mapboxgl-map"
                 viewportChangeMethod={'flyTo'}
-       
+
                 {...this.state.viewport}
             >
                 <div className="fixed top-0 left-0">
@@ -260,7 +260,7 @@ class Mapp extends React.Component {
                         {"Filter by Service"}
                     </Popover>
                 </div>
-                
+
                 <img src={MarkerIcon} />
 
                 <Filter layerId='cluster' filter={['==', 'service', this.state.filterValue]} />
@@ -268,7 +268,7 @@ class Mapp extends React.Component {
                 {
                     this.state.activeMarker.length &&
                     <Marker
-                    onClick={()=>{ alert()}}
+                        onClick={() => { alert() }}
                         // onClick={this.context.actions.selectprovider}
                         key={this.state.activeMarker.coordinates[0]}
                         latitude={this.state.activeMarker.coordinates[0]}
@@ -279,35 +279,39 @@ class Mapp extends React.Component {
                 }
 
 
-                        {/* console.log('Point --> ', point), */}
+                {/* console.log('Point --> ', point), */}
 
                 <Cluster id="cluster" radius={20} extent={512} nodeSize={128} component={ClusterMarker}>
-                   
-                        {/* console.log('Map point ===> ', point ), */}
+
+                    {/* console.log('Map point ===> ', point ), */}
                     {points.filter(a => a).map(point => (
 
 
                         <Marker
                             // onCLick={() => this.context.actions.selectProvider(point)}
-                            // onClick={()=>{ alert()}}
+                            onClick={async()=>{
+                                
+                                await this.context.actions.set.layout.drawers.toggle({ self_: this.context.self, drawer: 0 })
+
+                            }}
                             key={point.title}
                             latitude={point.lat}
                             longitude={point.lon}
                             className="marker"
                         >
 
-                            <Popover 
-                            //  onClick={()=>{ alert()}}
-                            trigger={'hover'} placement={'right'} content={
-                                <div className="flex flex-column pa3 bg-white black f5 fw6 relative">
+                            <Popover
+                                //  onClick={()=>{ alert()}}
+                                trigger={'hover'} placement={'right'} content={
+                                    <div className="flex flex-column pa3 bg-white black f5 fw6 relative">
 
-                                    {/* {point.properties.title} */}
-                                    <div className="f5 fw5 black ph2-pv1 br1-  round- bs-e- text-overflow-  bg-=-white ">{point.title}</div>
-                                    {/* <div className="f6 fw5 black-60 ph2-pv1 br1-  round- bs-e- text-overflow-  bg-=-white ">{point.description}</div> */}
-                                </div>
-                            } 
-                            
-                            title={false}>
+                                        {/* {point.properties.title} */}
+                                        <div className="f5 fw5 black ph2-pv1 br1-  round- bs-e- text-overflow-  bg-=-white ">{point.title}</div>
+                                        {/* <div className="f6 fw5 black-60 ph2-pv1 br1-  round- bs-e- text-overflow-  bg-=-white ">{point.description}</div> */}
+                                    </div>
+                                }
+
+                                title={false}>
 
                                 {/* <div className=" absolute top-0 left-0">
                         
@@ -326,23 +330,23 @@ class Mapp extends React.Component {
                                     id='my-image' image={ point.image } />
                                      */}
                                 <div
-                                // onClick={()=>{ alert()}}
+                                    // onClick={()=>{ alert()}}
                                     // onClick={() => this.context.actions.selectprovider({ type: 'provider', provider: { fields: point.properties } })}
                                     className={("service-" + point.title) + (" z-9 relative hover-scale-up flex flex-column br2 -round ba-bw1-b--white bg-cover bg-center bs-f ")}
                                     style={{
 
                                         height: '70px',
                                         width: '70px',
-                                        backgroundImage: 'url("' + point.image  + '")',
+                                        backgroundImage: 'url("' + point.image + '")',
 
                                     }}
                                 >
-                                    
-                         
 
-                                    <Image 
-                                     onClick={()=>{ alert()}}
-                                    id='my-image' image={ point.image } />
+
+
+                                    <Image
+                                        onClick={() => { alert() }}
+                                        id='my-image' image={point.image} />
 
                                 </div>
                             </Popover>
@@ -355,9 +359,9 @@ class Mapp extends React.Component {
                 </Cluster>
 
                 <div className="fixed top-0 right-0">
-                    <GeolocateControl 
-                    ref={this.geolocateRef}
-                    position='top-right' trackUserLocation={true} showUserLocation={true} />
+                    <GeolocateControl
+                        ref={this.geolocateRef}
+                        position='top-right' trackUserLocation={true} showUserLocation={true} />
                 </div>
 
                 <div className="fixed top-0 right-0">

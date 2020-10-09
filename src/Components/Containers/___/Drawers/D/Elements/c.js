@@ -120,7 +120,7 @@ const Menu = ({ props }) => {
   const active_menu = menus[active]
 
   return (
-    <div className="flex flex-row w-100 items-center justify-start  h-100">
+    <div className="flex flex-row-ns flex-column w-100 items-center-ns items-start justify-start  h-100">
       {active_menu.map((item, index) => (
       
        

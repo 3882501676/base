@@ -6,6 +6,12 @@ import AppContext, {
   AppConsumer,
 } from "../../../../../Util/Context/context.js";
 // import D from '.';
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
 
 const D = () => (
   <AppContext.Consumer>
@@ -14,7 +20,7 @@ const D = () => (
       (
         <>
           <Drawer
-            width={500}
+            width={ isBrowser ? 500 : '100vw' }
             closable={true}
             onClose={() => {
               props.self.setState({
@@ -40,10 +46,14 @@ const D = () => (
               }}
               placement={"right"}
               visible={props.state.d2}
-              style={{
+              style={
+                isBrowser ? {
                 height: "90vh",
                 top: "10vh",
-              }}
+              } : {
+                height: "90vh",
+                top: "10vh",
+              } }
             >
               <props.d_components.a_ props={props} />
 
@@ -70,7 +80,7 @@ const D = () => (
 {/* { props.state.d4 &&  */}
           <Drawer
             width={"100vw"}
-            height={"26vh"}
+            height={ isBrowser ? "26vh" : "90vh" }
             closable={false}
             onClose={() => {
               props.self.setState({
@@ -95,7 +105,7 @@ const D = () => (
          {/* { props.state.d5 &&  */}
          <Drawer
             width={"100vw"}
-            height={"15vh"}
+            height={ isBrowser ? "15vh" : "90vh" }
             closable={false}
             onClose={() => {
               props.self.setState({

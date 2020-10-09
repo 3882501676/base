@@ -1,0 +1,17 @@
+.bounce {
+    animation: bounce; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s
+}
+.shake {
+    animation: shakeX;
+    /*referringdirectlytotheanimation's@keyframedeclaration*/animation-duration: 2s;
+    -webkit-animation: shakeX;
+    animation-duration: 2s
+}
+
+.pulse {
+    animation: pulse;
+    /*referringdirectlytotheanimation's@keyframedeclaration*/animation-duration: 2s;
+    -webkit-animation: pulse;
+    animation-duration: 2s;
+}

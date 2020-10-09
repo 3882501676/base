@@ -1,0 +1,11 @@
+.bg-light-green {
+    background-color: #d8fbee;
+}
+
+.bg-green-highlight {
+    background: linear-gradient(to bottom, #81ff6a, #7aff00);
+}
+
+.bg-red {
+background: red;
+}

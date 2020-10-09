@@ -47,7 +47,7 @@ const b = ({ props }) => {
   return (
     <>
       <div
-        className="flex flex-row justify-start  f4 fw6 black  
+        className="flex flex-row flex-wrap justify-start-ns justify-between  f4 fw6 black  
    pa4 "
       >
         {props.self.state.d4 &&

@@ -5,6 +5,12 @@ import AppContext from "../../../../Util/Context/context.js";
 import { Icon } from "@blueprintjs/core";
 import config from "../../../../config.json";
 import { Link } from "react-router-dom";
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
 
 class Nav extends PureComponent {
   constructor(props) {
@@ -57,6 +63,7 @@ class Nav extends PureComponent {
       return <h1>Something went wrong.</h1>;
     }
     return (
+      <>
       <div
         style={{
           height: "10vh",
@@ -101,9 +108,14 @@ class Nav extends PureComponent {
             }
 
           </div> */}
+          
+          <BrowserView>
+            <Spacer self={this} />
+          </BrowserView>
 
-          <Spacer self={this} />
+          <div className="flex flex-row justify-end ">
 
+          
           <div
             onMouseEnter={() => {
               this.context.self.setState({
@@ -126,43 +138,45 @@ class Nav extends PureComponent {
             />
           </div>
 
-          <div
-            style={{
-
-            }}
-            className="w-20 pointer flex flex-row items-center justify-center ph3 pv4 bl b--black-05">
-            <button
+          <BrowserView>
+            <div
               style={{
-                padding: "1.6vh 7vh",
-                fontWeight: "500",
-                boxShadow: "0px 2px 10px 0px #2f89fa2e",
-              }}
-              onClick={() => {
-                this.context.history.push('/login')
-              }}
-              className=" dim pointer hover-child-slide-right flex flex-row items-center justify-center bn ph2 pv2 br2  bg-blue "
-            >
-              <span className="flex ttu tracked  f5 fw7 white">
-                {"Sign in"}
-              </span>
 
-              <div
-                className="flex relative "
+              }}
+              className="w-20 pointer flex flex-row items-center justify-center ph3 pv4 bl b--black-05">
+              <button
                 style={{
-                  right: "1vw",
-                  top: "-9px",
+                  padding: "1.6vh 7vh",
+                  fontWeight: "500",
+                  boxShadow: "0px 2px 10px 0px #2f89fa2e",
                 }}
+                onClick={() => {
+                  this.context.history.push('/login')
+                }}
+                className=" dim pointer hover-child-slide-right flex flex-row items-center justify-center bn ph2 pv2 br2  bg-blue "
               >
-                <span className="absolute child  hover-child flex ml2 hover-slide-right">
-                  <Icon
-                    icon={"arrow-right"}
-                    iconSize={15}
-                    style={{ fill: "white" }}
-                  />
+                <span className="flex ttu tracked  f5 fw7 white">
+                  {"Sign in"}
                 </span>
-              </div>
-            </button>
-          </div>
+
+                <div
+                  className="flex relative "
+                  style={{
+                    right: "1vw",
+                    top: "-9px",
+                  }}
+                >
+                  <span className="absolute child  hover-child flex ml2 hover-slide-right">
+                    <Icon
+                      icon={"arrow-right"}
+                      iconSize={15}
+                      style={{ fill: "white" }}
+                    />
+                  </span>
+                </div>
+              </button>
+            </div>
+          </BrowserView>
 
           <div
             onMouseEnter={() => {
@@ -189,8 +203,14 @@ class Nav extends PureComponent {
               className="dim  white hover-red trans-a pointer relative "
             />
           </div>
+          </div>
         </div>
       </div>
+
+        <MobileView>
+            <Spacer self={this} />
+        </MobileView>
+        </>
     );
   }
 }
@@ -209,9 +229,25 @@ Nav.contextType = AppContext;
 
 const Spacer = ({ self }) => <div
 
-  style={{
-    height: '10vh'
-  }}
+  style={
+    
+    isBrowser ? 
+    {
+    
+      height: '10vh'
+  
+    } :
+    {
+    
+      height: '10vh',
+      position: 'fixed',
+      bottom: 0,
+      width: '100vw',
+      zIndex: 999
+
+    } 
+    
+    }
 
   id="spacer"
 
